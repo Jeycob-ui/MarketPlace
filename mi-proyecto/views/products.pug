@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Productos
+  a(href='/products/new') Nuevo producto
+  if products.length === 0
+    p No hay productos
+  ul
+    each p in products
+      li
+        strong= p.title
+        |  - $#{p.price} - stock: #{p.quantity}
+        a(href=`/products/${p.id}/edit`) Editar
+        form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
+          button(type='submit') Eliminar

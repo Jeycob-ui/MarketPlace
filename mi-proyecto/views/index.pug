@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Productos recientes
+  if products.length === 0
+    p No hay productos aún.
+  .grid
+    each p in products
+      .card
+        h3= p.title
+        p Precio: $#{p.price}
+        p Stock: #{p.quantity}
+        a(href=`/products/${p.id}`) Ver
+        form(action=`/cart/add/${p.id}` method='post')
+          button(type='submit') Añadir al carrito

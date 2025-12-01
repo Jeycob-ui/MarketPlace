@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 Registrar
+  form(action='/register' method='post')
+    label Nombre
+    input(type='text' name='name' required)
+    label Email
+    input(type='email' name='email' required)
+    label Contraseña
+    input(type='password' name='password' required)
+    label Rol
+    select(name='role')
+      option(value='buyer') Comprador
+      option(value='vendor') Vendedor
+    button(type='submit') Registrarse
