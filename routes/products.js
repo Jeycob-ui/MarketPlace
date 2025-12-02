@@ -10,7 +10,7 @@ function ensureAuth(req, res, next) {
 function ensureVendorOrAdmin(req, res, next) {
   const u = req.session.user;
   if (!u) return res.redirect('/login');
-  if (u.role === 'vendor' || u.role === 'admin') return next();
+  if (u.role === 'vendedor' || u.role === 'admin') return next();
   req.flash('error', 'No autorizado');
   res.redirect('/');
 }
