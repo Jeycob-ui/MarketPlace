@@ -1,0 +1,188 @@
+/* Fuente global */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* background: linear-gradient(135deg, #ece9ff, #d8eaff); */
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #2776F5;
+  flex-shrink: 0;
+  padding: 15px 0;
+  box-shadow: 0 3px 8px rgba(39, 118, 245, 0.3);
+}
+
+header nav {
+  display: flex;
+  gap: 30px;
+  font-weight: 600;
+  color: white;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+header nav a:hover {
+  color: #a0c0ff;
+}
+
+header nav span {
+  margin-left: auto;
+  color: white;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* REGISTER FORM */
+form {
+  background: #ffffffcc;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.159);
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.9s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2776F5;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  padding: 12px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #fafaff;
+  transition: all 0.25s ease;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+/* Hover */
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+select:hover {
+  border-color: #bbb;
+}
+
+/* Focus */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  border-color: #2776F5;
+  box-shadow: 0 0 8px rgba(39, 118, 245, 0.25);
+  outline: none;
+  background: #ffffff;
+}
+
+button[type="submit"] {
+  margin-top: 10px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7b86ff, #2776F5);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(120, 120, 255, 0.3);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* FOOTER */
+footer {
+  background: #2776F5;
+  color: #fff;
+  padding: 18px 0;
+  flex-shrink: 0;
+  box-shadow: 0 -3px 8px rgba(39, 118, 245, 0.3);
+}
+
+footer p {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  form {
+    padding: 28px 20px;
+    margin: 20px;
+  }
+}

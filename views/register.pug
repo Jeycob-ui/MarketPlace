@@ -1,0 +1,25 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/registro.css')
+
+block content
+  h1 Registrate
+  .register-container
+    form.register-form(action='/register' method='post')
+      .form-row
+        label(for='name') Nombre
+        input#name(type='text' name='name' required)
+      .form-row
+        label(for='email') Email
+        input#email(type='email' name='email' required)
+      .form-row
+        label(for='password') Contraseña
+        input#password(type='password' name='password' required)
+      .form-row
+        label(for='role') Rol
+        select#role(name='role')
+          option(value='buyer') Comprador
+          option(value='vendor') Vendedor
+      .form-actions
+        button.btn(type='submit') Registrarse

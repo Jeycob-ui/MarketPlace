@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Tu carrito
+  if entries.length === 0
+    p Carrito vacío
+  else
+    table
+      tr
+        th Producto
+        th Cantidad
+        th Precio
+      each e in entries
+        tr
+          td= e.product.title
+          td= e.quantity
+          td $#{(e.product.price * e.quantity).toFixed(2)}
+    form(action='/cart/checkout' method='post')
+      button(type='submit') Pagar

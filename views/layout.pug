@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title MarketPlace
+    link(rel='stylesheet' href='/styles.css')
+    block styles
+  body
+    header
+      nav
+        a(href='/') Inicio
+        a(href='/products') Productos
+        if !currentUser
+          a(href='/register') Registrar
+          a(href='/login') Login
+        else
+          span Hola #{currentUser.name} (#{currentUser.role})
+          a(href='/cart') Carrito
+          a(href='/logout') Salir
+          if currentUser.role === 'admin'
+            a(href='/admin') Admin
+    main
+      if messages.error
+        .flash.error
+          each m in messages.error
+            div= m
+      if messages.success
+        .flash.success
+          each m in messages.success
+            div= m
+      block content
+    footer
+      p © 2025 MarketPlace. Todos los derechos reservados.
