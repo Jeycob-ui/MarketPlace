@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "seed:import": "node ./seeders/seed.js --import",
+    "seed:delete": "node ./seeders/seed.js --delete",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,6 +19,7 @@
     "pug": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "sequelize": "^6.32.1",
+    "mysql2": "^3.3.0",
     "sqlite3": "^5.1.6",
     "express-session": "^1.17.3",
     "connect-flash": "^0.1.1",

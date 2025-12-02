@@ -1,9 +1,16 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const path = require('path');
+require('dotenv').config();
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '..', 'database.sqlite'),
+const dbName = process.env.DB_NAME || 'marketplace';
+const dbUser = process.env.DB_USER || 'root';
+const dbPass = process.env.DB_PASSWORD || '';
+const dbHost = process.env.DB_HOST || '127.0.0.1';
+const dbPort = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306;
+
+const sequelize = new Sequelize(dbName, dbUser, dbPass, {
+  host: dbHost,
+  port: dbPort,
+  dialect: 'mysql',
   logging: false,
 });
 
