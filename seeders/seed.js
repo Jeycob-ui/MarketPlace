@@ -21,7 +21,7 @@ async function importData({ force = false } = {}) {
 			defaults: {
 				name: 'Vendor One',
 				passwordHash: bcrypt.hashSync('vendorpass', 8),
-				role: 'vendor',
+				role: 'vendedor',
 			},
 		});
 
@@ -30,7 +30,7 @@ async function importData({ force = false } = {}) {
 			defaults: {
 				name: 'Buyer One',
 				passwordHash: bcrypt.hashSync('buyerpass', 8),
-				role: 'buyer',
+				role: 'comprador',
 			},
 		});
 

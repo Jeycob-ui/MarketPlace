@@ -17,9 +17,12 @@ block content
         label(for='password') Contraseña
         input#password(type='password' name='password' required)
       .form-row
+        label(for='confirm_password') Repetir Contraseña
+        input#confirm_password(type='password' name='confirm_password' required)
+      .form-row
         label(for='role') Rol
         select#role(name='role')
-          option(value='buyer') Comprador
-          option(value='vendor') Vendedor
+          option(value='comprador') Comprador
+          option(value='vendedor') Vendedor
       .form-actions
         button.btn(type='submit') Registrarse
