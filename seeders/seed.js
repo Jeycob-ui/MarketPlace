@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcryptjs');
 const { sequelize, User, Product, Order, OrderItem } = require('../models');
 
@@ -54,7 +53,14 @@ async function importData({ force = false } = {}) {
 		for (const p of products.slice(0, 2)) {
 			const quantity = 2;
 			const price = p.price;
-			await OrderItem.create({ orderId: order.id, productId: p.id, quantity, price });
+
+			await OrderItem.create({
+				orderId: order.id,
+				productId: p.id,
+				quantity,
+				price,
+			});
+
 			total += price * quantity;
 		}
 
@@ -71,16 +77,26 @@ async function importData({ force = false } = {}) {
 
 async function deleteData() {
 	try {
-		// Eliminamos en orden para evitar problemas con claves foráneas
+		console.log("🔧 Desactivando llaves foráneas...");
+		await sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
+
+		console.log("🗑️ Eliminando datos en orden...");
 		await OrderItem.destroy({ where: {}, truncate: true });
 		await Order.destroy({ where: {}, truncate: true });
 		await Product.destroy({ where: {}, truncate: true });
 		await User.destroy({ where: {}, truncate: true });
 
-		console.log('Datos eliminados correctamente.');
+		console.log("🔧 Activando llaves foráneas...");
+		await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
+
+		console.log('✔️ Datos eliminados correctamente.');
 		process.exit();
 	} catch (err) {
-		console.error('Error eliminando datos:', err);
+		console.error('❌ Error eliminando datos:', err);
+
+		// Reactivar FK si falló algo
+		await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
+
 		process.exit(1);
 	}
 }
@@ -91,6 +107,7 @@ function printUsage() {
 }
 
 const args = process.argv.slice(2);
+
 if (args.includes('--import') || args.includes('--seed')) {
 	const force = args.includes('--force');
 	importData({ force });
@@ -100,4 +117,3 @@ if (args.includes('--import') || args.includes('--seed')) {
 	printUsage();
 	process.exit();
 }
-
