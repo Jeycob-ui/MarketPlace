@@ -35,9 +35,9 @@ async function importData({ force = false } = {}) {
 
 		console.log('Creando productos...');
 		const productDefs = [
-			{ title: 'Camiseta', description: 'Camiseta 100% algodón', price: 19.99, quantity: 50, image: '', userId: vendor.id },
-			{ title: 'Pantalón', description: 'Pantalón cómodo', price: 39.99, quantity: 30, image: '', userId: vendor.id },
-			{ title: 'Gorra', description: 'Gorra clásica', price: 9.99, quantity: 100, image: '', userId: vendor.id },
+			{ title: 'Camiseta', description: 'Camiseta 100% algodón', price: 19.000, quantity: 50, image: '', userId: vendor.id },
+			{ title: 'Pantalón', description: 'Pantalón cómodo', price: 39.00, quantity: 30, image: '', userId: vendor.id },
+			{ title: 'Gorra', description: 'Gorra clásica', price: 10.000 , quantity: 100, image: '', userId: vendor.id },
 		];
 
 		const products = [];

@@ -39,6 +39,10 @@ app.use('/', authRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/admin', adminRoutes);
+
+// Helpers disponibles en vistas
+const { formatCOP } = require('./helpers/currency');
+app.locals.formatCOP = formatCOP;
 app.use('/notifications', notificationsRoutes);
 
 app.get('/', async (req, res) => {

@@ -12,7 +12,7 @@ block content
     each p in products
       li
         strong= p.title
-        |  - $#{p.price} - stock: #{p.quantity}
+        |  - #{formatCOP(p.price)} - stock: #{p.quantity}
         a(href=`/products/${p.id}/edit`) Editar
         form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
           button(type='submit') Eliminar
