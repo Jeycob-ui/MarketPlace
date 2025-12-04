@@ -28,4 +28,10 @@ Order.belongsTo(User, { foreignKey: 'userId' });
 Order.belongsToMany(Product, { through: OrderItem, foreignKey: 'orderId', otherKey: 'productId' });
 Product.belongsToMany(Order, { through: OrderItem, foreignKey: 'productId', otherKey: 'orderId' });
 
+// Expose direct relations for the through model so it can be queried/included easily
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+OrderItem.belongsTo(Product, { foreignKey: 'productId' });
+Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+Product.hasMany(OrderItem, { foreignKey: 'productId' });
+
 module.exports = { sequelize, Sequelize, User, Product, Order, OrderItem };

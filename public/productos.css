@@ -1,0 +1,76 @@
+/* Contenedor principal */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Botón principal */
+a[href="/products/new"] {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #1e90ff;
+  color: #fff !important;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: 0.3s ease;
+}
+a[href="/products/new"]:hover {
+  background: #0d6efd;
+}
+
+/* Lista de productos */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+li {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Información del producto */
+li strong {
+  font-size: 1.1rem;
+  color: #444;
+}
+li span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Botones de acción */
+li a[href*="edit"] {
+  padding: 6px 12px;
+  background: #ffc107;
+  color: #000 !important;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+li a[href*="edit"]:hover {
+  background: #e0a800;
+}
+
+li form button {
+  padding: 6px 12px;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+li form button:hover {
+  background: #b02a37;
+}

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1 Notificaciones de compras
+  if !items || items.length === 0
+    p No hay compras recientes.
+  else
+    ul
+      each it in items
+        li
+          b Producto: 
+          | #{it.Product ? it.Product.title : 'N/D'}
+          |  — Cantidad: #{it.quantity} — Precio: $#{it.price}
+          br
+          b Comprador: 
+          | #{it.Order && it.Order.User ? it.Order.User.name : 'N/D'}
+          |  (#{it.Order && it.Order.User ? it.Order.User.email : 'N/D'})
+          br
+          if it.Product && it.Product.User
+            b Vendedor: 
+            | #{it.Product.User.name} (#{it.Product.User.email})
+            br
+          small Fecha: #{it.createdAt}
