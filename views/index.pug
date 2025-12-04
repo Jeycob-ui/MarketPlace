@@ -1,5 +1,8 @@
 extends layout
 
+block styles 
+    link(rel="stylesheet", href="/index.css")
+
 block content
   h1 Productos recientes
   if products.length === 0
@@ -7,9 +10,16 @@ block content
   .grid
     each p in products
       .card
+        if p.image
+          img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` style='width: 100%; max-height: 200px; object-fit: cover; margin-bottom: 10px;')
         h3= p.title
-        p Precio: $#{p.price}
-        p Stock: #{p.quantity}
-        a(href=`/products/${p.id}`) Ver
-        form(action=`/cart/add/${p.id}` method='post')
-          button(type='submit') Añadir al carrito
+        p(style='color: #666; font-size: 0.9em; margin: 5px 0;')= p.description ? (p.description.substring(0, 100) + (p.description.length > 100 ? '...' : '')) : 'Sin descripción'
+        p
+          strong Precio: 
+          | $#{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.price)}
+        p(style='color: ' + (p.quantity > 0 ? '#28a745' : '#dc3545'))
+          strong Stock: 
+          | #{p.quantity} #{p.quantity > 0 ? 'disponibles' : 'sin stock'}
+        a(href=`/products/${p.id}` style='display: block; margin: 10px 0; padding: 8px; background-color: #007bff; color: white; text-align: center; text-decoration: none; border-radius: 4px;') Ver detalles
+        form(action=`/cart/add/${p.id}` method='post' style='margin: 10px 0;')
+          button(type='submit' style='width: 100%; padding: 8px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px;' disabled=p.quantity===0) Añadir al carrito

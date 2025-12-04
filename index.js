@@ -52,7 +52,7 @@ app.get('/', async (req, res) => {
 
 async function start() {
   try {
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
     // create default admin if none
     const admin = await User.findOne({ where: { role: 'admin' } });
     if (!admin) {

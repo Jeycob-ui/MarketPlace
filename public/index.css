@@ -1,0 +1,107 @@
+/* CONTENEDOR GENERAL */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* TÍTULO */
+h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+/* GRID DE PRODUCTOS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eef2f5;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+}
+
+/* TÍTULO DEL PRODUCTO */
+.card h3 {
+  font-size: 0.95rem;
+  color: #222;
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+/* TEXTO */
+.card p {
+  margin: 3px 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* BOTÓN "VER" */
+.card a {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #3498db;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.25s ease;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+img{
+    border-radius: 10px;
+}
+.card a:hover {
+  background: #217dbb;
+}
+
+/* FORMULARIO DEL BOTÓN "AÑADIR AL CARRITO" */
+.card form {
+  margin-top: 10px;
+}
+
+/* BOTÓN CARRITO */
+.card button {
+  width: 100%;
+  padding: 6px 10px;
+  background: #2ecc71;
+  color: white;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.card button:hover {
+  background: #25b863;
+}
+
+/* CUANDO NO HAY PRODUCTOS */
+p {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 18px;
+  border-radius: 10px;
+}

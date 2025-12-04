@@ -7,7 +7,7 @@ block content
   h1 Productos
   .actions
     a(href='/products/new') Nuevo producto
-  //- Search / filter form
+  //-Buscar y filtrar productos
   form(action='/products' method='get' class='product-search')
     input(type='text' name='q' placeholder='Buscar título o descripción' value=(query && query.q) || '')
     input(type='number' step='1' name='minPrice' placeholder='Precio min (COP)' value=(query && query.minPrice) || '')
@@ -27,8 +27,11 @@ block content
   ul
     each p in products
       li
+        if p.image
+          img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` style='max-width: 100px; max-height: 100px; margin-bottom: 10px;')
         strong= p.title
-        |   #{formatCOP(p.price)} - stock: #{p.quantity}
+        |   #{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.price)} - stock: #{p.quantity}
+        br
         a(href=`/products/${p.id}/edit`) Editar
         form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
           button(type='submit') Eliminar

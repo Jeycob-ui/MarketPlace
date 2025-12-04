@@ -1,37 +1,68 @@
 extends layout
 
+block styles 
+    link(rel="stylesheet", href="/producto-edit.css")
+
 block content
   if viewOnly
-    h1= product.title
-    p= product.description
-    p Precio: $#{product.price}
-    p Stock: #{product.quantity}
-    a(href='/products') Volver
+    .product-detail
+      h1= product.title
+      if product.image
+        img(src=`data:${product.imageMimeType || 'image/jpeg'};base64,${product.image}` style='max-width: 400px; max-height: 400px; margin-bottom: 20px;')
+      .product-info
+        p
+          strong Descripción:
+          br
+          | #{product.description}
+        p
+          strong Precio: 
+          | $#{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.price)}
+        p
+          strong Stock disponible: 
+          | #{product.quantity} unidades
+        if product.User
+          p
+            strong Vendedor: 
+            | #{product.User.name}
+            br
+            | Email: #{product.User.email}
+      form(action=`/cart/add/${product.id}` method='post' style='margin-top: 20px;')
+        button(type='submit' style='padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer;') Añadir al carrito
+      br
+      a(href='/products') Volver a productos
   else
     if product && product.id
       h1 Editar producto
-      form(action=`/products/${product.id}` method='post')
-        input(type='hidden' name='_method' value='PUT')
+      form(action=`/products/${product.id}/update` method='post' enctype='multipart/form-data')
         label Título
         input(type='text' name='title' value=(product && product.title) || '' required)
         label Descripción
         textarea(name='description') #{(product && product.description) || ''}
-        label Precio
-        input(type='number' step='0.01' name='price' value=(product && product.price) || '')
+        label Precio (COP)
+        input(type='number' step='0.01' name='price' value=(product && product.price) || '' placeholder='Ingresa el precio en COP')
         label Stock
         input(type='number' name='quantity' value=(product && product.quantity) || '')
+        label Imagen
+        if product && product.image
+          div
+            p Imagen actual:
+            img(src=`data:${product.imageMimeType || 'image/jpeg'};base64,${product.image}` style='max-width: 150px; max-height: 150px; margin-bottom: 10px;')
+            p Sube una nueva imagen para reemplazarla:
+        input(type='file' name='image' accept='image/*')
         button(type='submit') Guardar
         a(href='/products') Cancelar
     else
       h1 Nuevo producto
-      form(action='/products' method='post')
+      form(action='/products' method='post' enctype='multipart/form-data')
         label Título
         input(type='text' name='title' value=(product && product.title) || '' required)
         label Descripción
         textarea(name='description') #{(product && product.description) || ''}
-        label Precio
-        input(type='number' step='0.01' name='price' value=(product && product.price) || '')
+        label Precio (COP)
+        input(type='number' step='0.01' name='price' value=(product && product.price) || '' placeholder='Ingresa el precio en COP')
         label Stock
         input(type='number' name='quantity' value=(product && product.quantity) || '')
+        label Imagen
+        input(type='file' name='image' accept='image/*')
         button(type='submit') Guardar
         a(href='/products') Cancelar
