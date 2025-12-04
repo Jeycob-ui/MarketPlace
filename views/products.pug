@@ -5,14 +5,30 @@ block styles
 
 block content
   h1 Productos
-  a(href='/products/new') Nuevo producto
+  .actions
+    a(href='/products/new') Nuevo producto
+  //- Search / filter form
+  form(action='/products' method='get' class='product-search')
+    input(type='text' name='q' placeholder='Buscar título o descripción' value=(query && query.q) || '')
+    input(type='number' step='1' name='minPrice' placeholder='Precio min (COP)' value=(query && query.minPrice) || '')
+    input(type='number' step='1' name='maxPrice' placeholder='Precio max (COP)' value=(query && query.maxPrice) || '')
+    label
+      input(type='checkbox' name='available' value='1' checked=(query && (query.available === '1' || query.available === 'true')))
+      |  Solo disponibles
+    select(name='sort')
+      option(value='') Orden por
+      option(value='price_asc' selected=(query && query.sort==='price_asc')) Precio ↑
+      option(value='price_desc' selected=(query && query.sort==='price_desc')) Precio ↓
+      option(value='newest' selected=(query && query.sort==='newest')) Más recientes
+      option(value='oldest' selected=(query && query.sort==='oldest')) Más antiguos
+    button(type='submit') Buscar
   if products.length === 0
     p No hay productos
   ul
     each p in products
       li
         strong= p.title
-        |  - #{formatCOP(p.price)} - stock: #{p.quantity}
+        |   #{formatCOP(p.price)} - stock: #{p.quantity}
         a(href=`/products/${p.id}/edit`) Editar
         form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
           button(type='submit') Eliminar

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Product } = require('../models');
+const { Op } = require('sequelize');
 
 function ensureAuth(req, res, next) {
   if (!req.session.user) return res.redirect('/login');
@@ -11,13 +12,57 @@ function ensureVendorOrAdmin(req, res, next) {
   const u = req.session.user;
   if (!u) return res.redirect('/login');
   if (u.role === 'vendedor' || u.role === 'admin') return next();
-  req.flash('error', 'No autorizado');
+  req.flash('error', 'Necesitas ser vendedor o administrador');
   res.redirect('/');
 }
 
 router.get('/', async (req, res) => {
-  const products = await Product.findAll();
-  res.render('products', { products });
+  try {
+    const { q, minPrice, maxPrice, available, sort } = req.query;
+    const where = {};
+
+    if (q) {
+      const like = { [Op.like]: `%${q}%` };
+      where[Op.or] = [{ title: like }, { description: like }];
+    }
+
+    // Interpret minPrice/maxPrice inputs as COP (pesos colombianos)
+    // Convert them to USD (DB price) using the configured rate
+    if (minPrice) {
+      const n = parseFloat(minPrice);
+      if (!isNaN(n)) {
+        const { copToUsd } = require('../helpers/currency');
+        const usd = copToUsd(n);
+        where.price = { ...(where.price || {}), [Op.gte]: usd };
+      }
+    }
+    if (maxPrice) {
+      const n = parseFloat(maxPrice);
+      if (!isNaN(n)) {
+        const { copToUsd } = require('../helpers/currency');
+        const usd = copToUsd(n);
+        where.price = { ...(where.price || {}), [Op.lte]: usd };
+      }
+    }
+
+    if (available === '1' || available === 'true') {
+      where.quantity = { [Op.gt]: 0 };
+    }
+
+    const order = [];
+    if (sort === 'price_asc') order.push(['price', 'ASC']);
+    else if (sort === 'price_desc') order.push(['price', 'DESC']);
+    else if (sort === 'newest') order.push(['id', 'DESC']);
+    else if (sort === 'oldest') order.push(['id', 'ASC']);
+    else order.push(['id', 'DESC']);
+
+    const products = await Product.findAll({ where, order });
+    res.render('products', { products, query: req.query });
+  } catch (err) {
+    req.flash('error', 'Error buscando productos: ' + err.message);
+    const products = await Product.findAll();
+    res.render('products', { products, query: {} });
+  }
 });
 
 router.get('/new', ensureVendorOrAdmin, (req, res) => res.render('product_form', { product: {} }));

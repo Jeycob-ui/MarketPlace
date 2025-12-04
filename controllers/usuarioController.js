@@ -26,7 +26,7 @@ const autenticar = async (req, res) => {
     }
 
     req.session.user = { id: usuario.id, name: usuario.name, role: usuario.role };
-    req.flash('success', 'Bienvenido ' + usuario.name);
+    req.flash('success', 'Bienvenido ' + usuario.name + ' ojala encuentres lo que buscas');
     return res.redirect('/');
   } catch (err) {
     req.flash('error', 'Error al autenticar: ' + (err.message || err));
