@@ -1,19 +1,32 @@
 extends layout
 
+block styles 
+    link(rel="stylesheet", href="/cart.css")
+
 block content
   h1 Tu carrito
   if entries.length === 0
     p Carrito vacío
+    a(href='/products') Seguir comprando
   else
     table
       tr
         th Producto
         th Cantidad
         th Precio
+        th Acciones
       each e in entries
         tr
           td= e.product.title
           td= e.quantity
           td #{formatCOP(e.product.price * e.quantity)}
-    form(action='/cart/checkout' method='post')
-      button(type='submit') Pagar
+          td
+            form(action=`/cart/remove/${e.product.id}?_method=DELETE` method='POST' style='display:inline;')
+              button.btn-remove(type='submit') Eliminar
+    .cart-summary
+      .total-section
+        h2 Total a pagar: #{formatCOP(entries.reduce((sum, e) => sum + (e.product.price * e.quantity), 0))}
+    .checkout-section
+      form(action='/cart/checkout' method='post')
+        button.btn-checkout(type='submit') Pagar
+      a.btn-continue(href='/products') Seguir comprando

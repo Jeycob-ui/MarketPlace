@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .container.profile-container
+    .profile-header
+      h1 Mi Perfil
+      
+    .profile-card
+      .profile-info
+        h2= usuario.name
+        
+        .info-section
+          p
+            strong Email:
+            span= usuario.email
+          
+          p
+            strong Rol:
+            span= usuario.role
+          
+          p
+            strong Miembro desde:
+            span= usuario.createdAt.toLocaleDateString('es-ES')
+      
+      .profile-actions
+        a.btn.btn-primary(href="/profile/edit") Editar Perfil
+        a.btn.btn-secondary(href="/") Volver al inicio
+        
+        form.delete-form(action="/profile?_method=DELETE" method="POST")
+          button.btn.btn-danger(type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')") Eliminar Cuenta

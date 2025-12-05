@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .container.profile-edit-container
+    .profile-edit-header
+      h1 Editar Perfil
+    
+    .profile-edit-card
+      form.profile-edit-form(action="/profile?_method=PUT" method="POST")
+        .form-group
+          label(for="name") Nombre
+          input.form-control(
+            type="text"
+            id="name"
+            name="name"
+            value=usuario.name
+            required
+          )
+        
+        .form-group
+          label(for="email") Email
+          input.form-control(
+            type="email"
+            id="email"
+            name="email"
+            value=usuario.email
+            required
+          )
+        
+        .form-group
+          label(for="password") Nueva Contraseña (opcional)
+          input.form-control(
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Dejar vacío para no cambiar"
+          )
+          small.form-text Si dejas este campo vacío, tu contraseña actual no cambiará.
+        
+        .form-actions
+          button.btn.btn-success(type="submit") Guardar Cambios
+          a.btn.btn-secondary(href="/profile") Cancelar

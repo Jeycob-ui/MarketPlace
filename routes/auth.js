@@ -10,4 +10,9 @@ router.post('/login', usuarioController.autenticar);
 
 router.get('/logout', usuarioController.cerrarSesion);
 
+router.get('/profile', usuarioController.obtenerPerfil);
+router.get('/profile/edit', usuarioController.formularioEditarPerfil);
+router.put('/profile', usuarioController.actualizarPerfil);
+router.delete('/profile', usuarioController.eliminarCuenta);
+
 module.exports = router;

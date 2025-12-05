@@ -27,6 +27,17 @@ router.post('/add/:id', async (req, res) => {
   res.redirect('/cart');
 });
 
+router.delete('/remove/:id', async (req, res) => {
+  const id = req.params.id;
+  const cart = req.session.cart || {};
+  if (cart[id]) {
+    delete cart[id];
+    req.session.cart = cart;
+    req.flash('success', 'Producto eliminado del carrito');
+  }
+  res.redirect('/cart');
+});
+
 router.post('/checkout', ensureAuth, async (req, res) => {
   const cart = req.session.cart || {};
   if (Object.keys(cart).length === 0) {

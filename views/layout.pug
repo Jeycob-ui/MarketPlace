@@ -5,6 +5,7 @@ html
     meta(name='viewport' content='width=device-width,initial-scale=1')
     title MarketPlace
     link(rel='stylesheet' href='/styles.css')
+    link(rel='stylesheet' href='/profile.css')
     block styles
   body
     header
@@ -16,6 +17,7 @@ html
           a(href='/login') Login
         else
           span Hola #{currentUser.name} (#{currentUser.role})
+          a(href='/profile') Mi Perfil
           a(href='/cart') Carrito
           if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
             a(href='/notifications') Notificaciones
