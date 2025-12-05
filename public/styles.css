@@ -30,6 +30,35 @@ header nav{
 	margin:0 auto;
 }
 
+header nav img {
+	height: 60px;
+	width: auto;
+	object-fit: contain;
+	margin-right: 8px;
+	transition: transform 0.3s ease;
+	cursor: pointer;
+}
+
+header nav img:hover {
+	transform: scale(1.05);
+}
+
+header nav a.logo {
+	display: flex;
+	align-items: center;
+	margin-right: 16px;
+	padding: 0;
+	background: none !important;
+}
+
+header nav a.logo:hover {
+	background: none;
+}
+
+header nav a.logo img {
+	margin-right: 0;
+}
+
 header nav a{
     color: #fff;
 	margin:0;

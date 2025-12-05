@@ -24,14 +24,29 @@ block content
     button(type='submit') Buscar
   if products.length === 0
     p No hay productos
-  ul
-    each p in products
-      li
-        if p.image
-          img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` style='max-width: 100px; max-height: 100px; margin-bottom: 10px;')
-        strong= p.title
-        |   #{formatCOP(p.price)} - stock: #{p.quantity}
-        br
-        a(href=`/products/${p.id}/edit`) Editar
-        form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
-          button(type='submit') Eliminar
+  else
+    .products-grid
+      each p in products
+        .product-card
+          if p.image
+            img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` alt=p.title class='product-image')
+          .product-info
+            h3.product-title= p.title
+            p.product-price #{formatCOP(p.price)}
+            p.product-stock 
+              if p.quantity > 0
+                span.in-stock En stock (#{p.quantity})
+              else
+                span.out-stock Sin stock
+            p.product-description= p.description
+            .product-actions
+              a.btn.btn-info(href=`/products/${p.id}`) Ver detalles
+              if p.quantity > 0
+                form.add-to-cart-form(action=`/cart/add/${p.id}` method='POST' style='display:inline;')
+                  button.btn.btn-success(type='submit') Añadir al carrito
+              else
+                button.btn.btn-disabled(disabled) Agotado
+              if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
+                a.btn.btn-edit(href=`/products/${p.id}/edit`) Editar
+                form.delete-form(action=`/products/${p.id}?_method=DELETE` method='post')
+                  button.btn.btn-danger(type='submit' onclick="return confirm('¿Eliminar este producto?')") Eliminar

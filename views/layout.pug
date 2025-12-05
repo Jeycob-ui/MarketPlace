@@ -1,4 +1,3 @@
-doctype html
 html
   head
     meta(charset='utf-8')
@@ -10,6 +9,8 @@ html
   body
     header
       nav
+        a.logo(href='/') 
+          img(src="/img/MarketPlace.jpeg", alt="MarketPlace Logo")
         a(href='/') Inicio
         a(href='/products') Productos
         if !currentUser

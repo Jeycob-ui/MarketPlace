@@ -2,27 +2,28 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
 const formularioLogin = (req, res) => {
-  res.render('login');
+  const email = req.query.email || '';
+  res.render('login', { email });
 };
 
 const autenticar = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     req.flash('error', 'Email y contraseña son obligatorios');
-    return res.redirect('/login');
+    return res.redirect(`/login?email=${encodeURIComponent(email)}`);
   }
 
   try {
     const usuario = await User.findOne({ where: { email } });
     if (!usuario) {
       req.flash('error', 'Usuario no encontrado');
-      return res.redirect('/login');
+      return res.redirect(`/login?email=${encodeURIComponent(email)}`);
     }
 
     const ok = await bcrypt.compare(password, usuario.passwordHash);
     if (!ok) {
       req.flash('error', 'Contraseña incorrecta');
-      return res.redirect('/login');
+      return res.redirect(`/login?email=${encodeURIComponent(email)}`);
     }
 
     req.session.user = { id: usuario.id, name: usuario.name, role: usuario.role };
@@ -30,7 +31,7 @@ const autenticar = async (req, res) => {
     return res.redirect('/');
   } catch (err) {
     req.flash('error', 'Error al autenticar: ' + (err.message || err));
-    return res.redirect('/login');
+    return res.redirect(`/login?email=${encodeURIComponent(email)}`);
   }
 };
 
