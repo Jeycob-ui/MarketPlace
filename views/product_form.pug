@@ -16,7 +16,7 @@ block content
           | #{product.description}
         p
           strong Precio: 
-          | $#{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.price)}
+          | #{formatCOP(product.price)}
         p
           strong Stock disponible: 
           | #{product.quantity} unidades

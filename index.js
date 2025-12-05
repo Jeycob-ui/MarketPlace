@@ -7,6 +7,8 @@ require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 const { sequelize, User, Product, Order, OrderItem } = require('./models');
+const { Op } = require('sequelize');
+const { copToUsd } = require('./helpers/currency');
 
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -46,8 +48,42 @@ app.locals.formatCOP = formatCOP;
 app.use('/notifications', notificationsRoutes);
 
 app.get('/', async (req, res) => {
-  const products = await Product.findAll({ limit: 12 });
-  res.render('index', { products });
+  try {
+    const { q, minPrice, maxPrice, available, sort } = req.query || {};
+    const where = {};
+
+    if (q) {
+      const like = { [Op.like]: `%${q}%` };
+      where[Op.or] = [{ title: like }, { description: like }];
+    }
+
+    if (minPrice) {
+      const n = parseFloat(minPrice);
+      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.gte]: copToUsd(n) };
+    }
+    if (maxPrice) {
+      const n = parseFloat(maxPrice);
+      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.lte]: copToUsd(n) };
+    }
+
+    if (available === '1' || available === 'true') {
+      where.quantity = { [Op.gt]: 0 };
+    }
+
+    const order = [];
+    if (sort === 'price_asc') order.push(['price', 'ASC']);
+    else if (sort === 'price_desc') order.push(['price', 'DESC']);
+    else if (sort === 'newest') order.push(['id', 'DESC']);
+    else if (sort === 'oldest') order.push(['id', 'ASC']);
+    else order.push(['id', 'DESC']);
+
+    const products = await Product.findAll({ where, order, limit: 12 });
+    res.render('index', { products, query: req.query });
+  } catch (err) {
+    console.error('Error loading index products', err);
+    const products = await Product.findAll({ limit: 12 });
+    res.render('index', { products, query: {} });
+  }
 });
 
 async function start() {

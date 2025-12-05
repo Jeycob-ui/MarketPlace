@@ -30,7 +30,7 @@ block content
         if p.image
           img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` style='max-width: 100px; max-height: 100px; margin-bottom: 10px;')
         strong= p.title
-        |   #{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.price)} - stock: #{p.quantity}
+        |   #{formatCOP(p.price)} - stock: #{p.quantity}
         br
         a(href=`/products/${p.id}/edit`) Editar
         form(action=`/products/${p.id}?_method=DELETE` method='post' style='display:inline')
