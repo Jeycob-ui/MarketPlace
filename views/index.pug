@@ -9,8 +9,6 @@ block content
     input(type='number' step='1' name='minPrice' placeholder='Precio min (COP)' value=(query && query.minPrice) || '')
     input(type='number' step='1' name='maxPrice' placeholder='Precio max (COP)' value=(query && query.maxPrice) || '')
     label
-      input(type='checkbox' name='available' value='1' checked=(query && (query.available === '1' || query.available === 'true')))
-      |  Solo disponibles
     select(name='sort')
       option(value='') Orden por
       option(value='price_asc' selected=(query && query.sort==='price_asc')) Precio ↑

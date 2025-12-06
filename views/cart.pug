@@ -18,7 +18,13 @@ block content
       each e in entries
         tr
           td= e.product.title
-          td= e.quantity
+          td
+            .quantity-control
+              form(action=`/cart/decrease/${e.product.id}` method='POST' style='display:inline')
+                button.btn-qty(type='submit' title='Disminuir') −
+              span.qty-value= e.quantity
+              form(action=`/cart/increase/${e.product.id}` method='POST' style='display:inline')
+                button.btn-qty(type='submit' title='Aumentar') +
           td #{formatCOP(e.product.price * e.quantity)}
           td
             form(action=`/cart/remove/${e.product.id}?_method=DELETE` method='POST' style='display:inline;')

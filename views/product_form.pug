@@ -16,7 +16,7 @@ block content
           | #{product.description}
         p
           strong Precio: 
-          | $#{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.price)}
+          | #{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.price)}
         p
           strong Stock disponible: 
           | #{product.quantity} unidades
@@ -24,6 +24,7 @@ block content
           p
             strong Vendedor: 
             | #{product.User.name}
+            br
             br
             | Email: #{product.User.email}
       form(action=`/cart/add/${product.id}` method='post' style='margin-top: 20px;')

@@ -15,7 +15,6 @@ body {
 }
 
 header {
-  background: #2776F5;
   flex-shrink: 0;
   padding: 15px 0;
   box-shadow: 0 3px 8px rgba(39, 118, 245, 0.3);
@@ -139,7 +138,6 @@ button[type="submit"]:active {
 
 /* FOOTER */
 footer {
-  background: #2776F5;
   color: #fff;
   padding: 18px 0;
   flex-shrink: 0;

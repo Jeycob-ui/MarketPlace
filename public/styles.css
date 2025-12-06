@@ -15,7 +15,7 @@ body{
 
 /* Header */
 header{
-	background: #2776F5;
+	background:#1C7FFF;
 	color: #fff;
 	padding:10px 16px;
 	flex-shrink: 0;
@@ -101,7 +101,7 @@ main{
 
 /* Footer */
 footer{
-	background: #2776F5;
+	background: #1C7FFF;
 	color: #fff;
 	padding:18px 16px;
 	flex-shrink: 0;

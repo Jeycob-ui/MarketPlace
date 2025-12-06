@@ -24,6 +24,28 @@ router.post('/add/:id', async (req, res) => {
   req.session.cart = req.session.cart || {};
   req.session.cart[id] = (req.session.cart[id] || 0) + 1;
   req.flash('success', 'Añadido al carrito');
+  res.redirect(`/products/`);
+});
+
+router.post('/increase/:id', async (req, res) => {
+  const id = req.params.id;
+  const product = await Product.findByPk(id);
+  if (!product) return res.redirect('/cart');
+  req.session.cart = req.session.cart || {};
+  req.session.cart[id] = (req.session.cart[id] || 0) + 1;
+  res.redirect('/cart');
+});
+
+router.post('/decrease/:id', async (req, res) => {
+  const id = req.params.id;
+  const cart = req.session.cart || {};
+  if (cart[id] && cart[id] > 1) {
+    cart[id]--;
+    req.session.cart = cart;
+  } else if (cart[id]) {
+    delete cart[id];
+    req.session.cart = cart;
+  }
   res.redirect('/cart');
 });
 
