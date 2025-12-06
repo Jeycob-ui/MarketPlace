@@ -1,0 +1,11 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/login.css')
+
+block content
+  h1 Olvidé mi contraseña
+  form(action='/forgot' method='post')
+    label Email
+    input(type='email' name='email' required)
+    button(type='submit') Enviar instrucciones

@@ -1,0 +1,13 @@
+extends layout
+
+block styles
+  link(rel='stylesheet' href='/login.css')
+
+block content
+  h1 Restablecer contraseña
+  form(action=`/reset/${token}` method='post')
+    label Nueva contraseña
+    input(type='password' name='password' required)
+    label Confirmar contraseña
+    input(type='password' name='confirm' required)
+    button(type='submit') Cambiar contraseña

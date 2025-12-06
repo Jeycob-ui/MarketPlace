@@ -53,6 +53,12 @@ router.get('/', async (req, res) => {
       where.quantity = { [Op.gt]: 0 };
     }
 
+    // Solo mostrar productos activos en el listado público
+    // Si es admin, mostrar todos
+    if (!(req.session && req.session.user && req.session.user.role === 'admin')) {
+      where.active = true;
+    }
+
     const order = [];
     if (sort === 'price_asc') order.push(['price', 'ASC']);
     else if (sort === 'price_desc') order.push(['price', 'DESC']);
@@ -64,7 +70,8 @@ router.get('/', async (req, res) => {
     res.render('products', { products, query: req.query });
   } catch (err) {
     req.flash('error', 'Error buscando productos: ' + err.message);
-    const products = await Product.findAll();
+    const fallbackWhere = { active: true };
+    const products = await Product.findAll({ where: fallbackWhere });
     res.render('products', { products, query: {} });
   }
 });
@@ -105,6 +112,14 @@ router.get('/:id', async (req, res) => {
     if (!product) {
       return res.status(404).send('Producto no encontrado');
     }
+
+    // Si el producto está inactivo, no mostrarlo públicamente
+    const isAdmin = req.session && req.session.user && req.session.user.role === 'admin';
+    const isOwner = req.session && req.session.user && req.session.user.id === product.userId;
+    if (!product.active && !isAdmin && !isOwner) {
+      return res.status(404).send('Producto no encontrado');
+    }
+
     res.render('product_form', { product, viewOnly: true });
   } catch (err) {
     console.error('Error al obtener producto:', err);

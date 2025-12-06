@@ -77,6 +77,8 @@ app.get('/', async (req, res) => {
     else if (sort === 'oldest') order.push(['id', 'ASC']);
     else order.push(['id', 'DESC']);
 
+    // Mostrar solo productos activos en la tienda pública
+    where.active = true;
     const products = await Product.findAll({ where, order, limit: 12 });
     res.render('index', { products, query: req.query });
   } catch (err) {

@@ -8,6 +8,13 @@ router.post('/register', usuarioController.registrar);
 router.get('/login', usuarioController.formularioLogin);
 router.post('/login', usuarioController.autenticar);
 
+// Rutas para reseteo de contraseña
+router.get('/forgot', usuarioController.formularioOlvide);
+router.post('/forgot', usuarioController.enviarOlvide);
+
+router.get('/reset/:token', usuarioController.formularioReset);
+router.post('/reset/:token', usuarioController.resetPassword);
+
 router.get('/logout', usuarioController.cerrarSesion);
 
 router.get('/profile', usuarioController.obtenerPerfil);

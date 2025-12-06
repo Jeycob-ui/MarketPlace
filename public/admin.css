@@ -1,0 +1,118 @@
+/* ====== Estilos generales del panel ====== */
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f5f7;
+  color: #222;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #0d6efd;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #333;
+  border-left: 4px solid #0d6efd;
+  padding-left: 8px;
+}
+
+/* Listas y elementos */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background: #ffffff;
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* ===== Sección Productos en Admin ===== */
+.admin-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-info span {
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.prod-id {
+  font-weight: bold;
+  color: #555;
+}
+
+.prod-title {
+  font-weight: bold;
+  color: #222;
+}
+
+.prod-qty {
+  color: #6c757d;
+}
+
+/* Badges */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.status-badge.active {
+  background: #d4f4e2;
+  color: #0a8a47;
+  border: 1px solid #0a8a47;
+}
+
+.status-badge.inactive {
+  background: #ffe5e5;
+  color: #c41010;
+  border: 1px solid #c41010;
+}
+
+/* Botones */
+.product-actions form {
+  display: inline-block;
+  margin-left: 6px;
+}
+
+button.btn {
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-activate {
+  background: #198754;
+  color: #fff;
+}
+
+.btn-activate:hover {
+  background: #157347;
+}
+
+.btn-deactivate {
+  background: #dc3545;
+  color: #fff;
+}
+
+.btn-deactivate:hover {
+  background: #bb2d3b;
+}
+
+/* Hover de items */
+ul li:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transform: scale(1.01);
+}
