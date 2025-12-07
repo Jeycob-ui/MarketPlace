@@ -17,6 +17,13 @@ router.post('/reset/:token', usuarioController.resetPassword);
 
 router.get('/logout', usuarioController.cerrarSesion);
 
+// route to set a flash telling the user to login and redirect back
+router.get('/notify-login', (req, res) => {
+	const next = req.query.next || req.get('referer') || '/';
+	req.flash('success', 'Debes iniciar sesion primero para poder agregar al carrito');
+	// redirect back to the provided next (or referer) so the flash is visible there
+	return res.redirect(next);
+});
 router.get('/profile', usuarioController.obtenerPerfil);
 router.get('/profile/edit', usuarioController.formularioEditarPerfil);
 router.put('/profile', usuarioController.actualizarPerfil);

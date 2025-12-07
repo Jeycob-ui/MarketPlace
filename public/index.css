@@ -17,7 +17,7 @@ h1 {
 /* GRID DE PRODUCTOS */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -151,5 +151,36 @@ p {
 @media (max-width: 700px) {
   .product-search { flex-direction: column; align-items: stretch; }
   .product-search input[type="text"] { flex: 1 1 auto; }
+}
+
+/* RESPONSIVE PARA GRID */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  main {
+    padding: 10px;
+  }
 }
 

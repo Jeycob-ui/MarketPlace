@@ -33,5 +33,11 @@ block content
           strong Stock: 
           | #{p.quantity} #{p.quantity > 0 ? 'disponibles' : 'sin stock'}
         a(href=`/products/${p.id}` style='display: block; margin: 10px 0; padding: 8px; background-color: #007bff; color: white; text-align: center; text-decoration: none; border-radius: 4px;') Ver detalles
-        form(action=`/cart/add/${p.id}` method='post' style='margin: 10px 0;')
-          button(type='submit' style='width: 100%; padding: 8px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px;' disabled=p.quantity===0) Añadir al carrito
+        if p.quantity > 0
+          if currentUser
+            form(action=`/cart/add/${p.id}` method='post' style='margin: 10px 0;')
+              button(type='submit' class='card-add-btn' style='width: 100%;' ) Añadir al carrito
+          else
+            button(type='button' class='card-add-btn btn-need-login' style='width: 100%;' ) Añadir al carrito
+        else
+          button(type='button' disabled class='card-add-btn btn-disabled' style='width: 100%;') Agotado

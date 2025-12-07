@@ -35,5 +35,16 @@ html
           each m in messages.success
             div= m
       block content
+    // Handler for unauthenticated add-to-cart buttons: set flash and redirect back
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-need-login').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var next = window.location.pathname + window.location.search;
+            window.location = '/notify-login?next=' + encodeURIComponent(next);
+          });
+        });
+      });
     footer
       p © 2025 MarketPlace. Todos los derechos reservados.

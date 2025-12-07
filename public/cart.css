@@ -113,7 +113,7 @@ tr:hover td {
 
 .btn-continue {
   padding: 12px 40px;
-  background: #6c757d;
+  background: #1e90ff;
   color: white;
   text-decoration: none;
   border: none;
@@ -128,7 +128,7 @@ tr:hover td {
 }
 
 .btn-continue:hover {
-  background: #5a6268;
+  background: #1974cf;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(108, 117, 125, 0.3);
 }
@@ -209,9 +209,10 @@ a {
 /* Enlace para carrito vacío */
 p + a {
   display: inline-block;
-  width: 90%;
+  width: 100%;
   max-width: 900px;
-  margin: 20px auto;
+  margin: 20px;
+  margin-left: 40px;
   padding: 12px 40px;
   background: #1e90ff;
   color: white;

@@ -40,11 +40,16 @@ block content
             .product-actions
               a.btn.btn-info(href=`/products/${p.id}`) Ver detalles
               if p.quantity > 0
-                form.add-to-cart-form(action=`/cart/add/${p.id}` method='POST' style='display:inline;')
-                  button.btn.btn-success(type='submit') Añadir al carrito
+                if currentUser
+                  form.add-to-cart-form(action=`/cart/add/${p.id}` method='POST')
+                    button.btn.btn-success(type='submit') Añadir al carrito
+                else
+                  button.btn.btn-success.btn-need-login(type='button' data-productid=p.id) Añadir al carrito
               else
                 button.btn.btn-disabled(disabled) Agotado
               if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
                 a.btn.btn-edit(href=`/products/${p.id}/edit`) Editar
                 form.delete-form(action=`/products/${p.id}?_method=DELETE` method='post')
                   button.btn.btn-danger(type='submit' onclick="return confirm('¿Eliminar este producto?')") Eliminar
+
+  

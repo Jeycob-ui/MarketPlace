@@ -27,8 +27,14 @@ block content
             br
             br
             | Email: #{product.User.email}
-      form(action=`/cart/add/${product.id}` method='post' style='margin-top: 20px;')
-        button(type='submit' style='padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer;') Añadir al carrito
+      if product.quantity > 0
+        if currentUser
+          form(action=`/cart/add/${product.id}` method='post' style='margin-top: 20px;')
+            button(type='submit' class='btn btn-success') Añadir al carrito
+        else
+          button(type='button' class='btn btn-success btn-need-login' style='margin-top: 20px;') Añadir al carrito
+      else
+        button(type='button' disabled class='btn btn-disabled' style='margin-top: 20px;') Agotado
       br
       a(href='/products') Volver a productos
   else

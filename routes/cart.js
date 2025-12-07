@@ -17,14 +17,14 @@ router.get('/', async (req, res) => {
   res.render('cart', { entries });
 });
 
-router.post('/add/:id', async (req, res) => {
+router.post('/add/:id', ensureAuth, async (req, res) => {
   const id = req.params.id;
   const product = await Product.findByPk(id);
   if (!product) return res.redirect('/products');
   req.session.cart = req.session.cart || {};
   req.session.cart[id] = (req.session.cart[id] || 0) + 1;
   req.flash('success', 'Añadido al carrito');
-  res.redirect(`/products/`);
+  res.redirect('/cart');
 });
 
 router.post('/increase/:id', async (req, res) => {
