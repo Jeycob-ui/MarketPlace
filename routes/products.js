@@ -31,21 +31,16 @@ router.get('/', async (req, res) => {
     }
 
     // Interpret minPrice/maxPrice inputs as COP (pesos colombianos)
-    // Convert them to USD (DB price) using the configured rate
     if (minPrice) {
       const n = parseFloat(minPrice);
       if (!isNaN(n)) {
-        const { copToUsd } = require('../helpers/currency');
-        const usd = copToUsd(n);
-        where.price = { ...(where.price || {}), [Op.gte]: usd };
+        where.price = { ...(where.price || {}), [Op.gte]: n };
       }
     }
     if (maxPrice) {
       const n = parseFloat(maxPrice);
       if (!isNaN(n)) {
-        const { copToUsd } = require('../helpers/currency');
-        const usd = copToUsd(n);
-        where.price = { ...(where.price || {}), [Op.lte]: usd };
+        where.price = { ...(where.price || {}), [Op.lte]: n };
       }
     }
 

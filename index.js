@@ -8,7 +8,6 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const { sequelize, User, Product, Order, OrderItem } = require('./models');
 const { Op } = require('sequelize');
-const { copToUsd } = require('./helpers/currency');
 
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -59,11 +58,11 @@ app.get('/', async (req, res) => {
 
     if (minPrice) {
       const n = parseFloat(minPrice);
-      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.gte]: copToUsd(n) };
+      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.gte]: n };
     }
     if (maxPrice) {
       const n = parseFloat(maxPrice);
-      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.lte]: copToUsd(n) };
+      if (!isNaN(n)) where.price = { ...(where.price || {}), [Op.lte]: n };
     }
 
     if (available === '1' || available === 'true') {

@@ -1,27 +1,11 @@
-const DEFAULT_RATE = process.env.USD_TO_COP ? parseFloat(process.env.USD_TO_COP) : 4500;
-const DB_CURRENCY = process.env.DB_CURRENCY ? process.env.DB_CURRENCY.toUpperCase() : 'USD';
+// Todos los precios se almacenan y trabajan en COP (pesos colombianos)
+// Sin conversiones de moneda
 
-function convertToCOP(amount, rate = DEFAULT_RATE) {
+function formatCOP(amount) {
   const num = Number(amount) || 0;
-  return Math.round(num * rate * 100) / 100;
-}
-
-function copToUsd(amountCOP, rate = DEFAULT_RATE) {
-  const num = Number(amountCOP) || 0;
-  if (rate === 0) return 0;
-  return Math.round((num / rate) * 100) / 100;
-}
-
-function formatCOP(amount, rate) {
-  const num = Number(amount) || 0;
-  let copValue;
-  if (DB_CURRENCY === 'USD') {
-    copValue = convertToCOP(num, rate);
-  } else {
-    // assume stored values are already in COP
-    copValue = Math.round(num * 100) / 100;
-  }
+  // Formato exacto sin redondeo: COP siempre entero
+  const copValue = Math.round(num);
   return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(copValue);
 }
 
-module.exports = { convertToCOP, copToUsd, formatCOP };
+module.exports = { formatCOP };
