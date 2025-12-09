@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { sequelize, User, Product, Order, OrderItem } = require('../models');
+const { sequelize, User, Category, Product, Order, OrderItem } = require('../models');
 
 async function importData({ force = false } = {}) {
 	try {
@@ -33,11 +33,27 @@ async function importData({ force = false } = {}) {
 			},
 		});
 
+		console.log('Creando categorías...');
+		const [ropa] = await Category.findOrCreate({
+			where: { name: 'Ropa' },
+			defaults: { description: 'Prendas de vestir' }
+		});
+
+		const [accesorios] = await Category.findOrCreate({
+			where: { name: 'Accesorios' },
+			defaults: { description: 'Complementos y accesorios' }
+		});
+
+		const [electronica] = await Category.findOrCreate({
+			where: { name: 'Electrónica' },
+			defaults: { description: 'Dispositivos electrónicos' }
+		});
+
 		console.log('Creando productos...');
 		const productDefs = [
-			{ title: 'Camiseta', description: 'Camiseta 100% algodón', price: 19.000, quantity: 50, image: '', userId: vendor.id },
-			{ title: 'Pantalón', description: 'Pantalón cómodo', price: 39.00, quantity: 30, image: '', userId: vendor.id },
-			{ title: 'Gorra', description: 'Gorra clásica', price: 10.000 , quantity: 100, image: '', userId: vendor.id },
+			{ title: 'Camiseta', description: 'Camiseta 100% algodón', price: 19.000, quantity: 50, image: '', userId: vendor.id, categoryId: ropa.id },
+			{ title: 'Pantalón', description: 'Pantalón cómodo', price: 39.00, quantity: 30, image: '', userId: vendor.id, categoryId: ropa.id },
+			{ title: 'Gorra', description: 'Gorra clásica', price: 10.000 , quantity: 100, image: '', userId: vendor.id, categoryId: accesorios.id },
 		];
 
 		const products = [];
@@ -84,6 +100,7 @@ async function deleteData() {
 		await OrderItem.destroy({ where: {}, truncate: true });
 		await Order.destroy({ where: {}, truncate: true });
 		await Product.destroy({ where: {}, truncate: true });
+		await Category.destroy({ where: {}, truncate: true });
 		await User.destroy({ where: {}, truncate: true });
 
 		console.log("🔧 Activando llaves foráneas...");

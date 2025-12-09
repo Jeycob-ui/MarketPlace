@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { Product } = require('../models');
+const { Product, Category } = require('../models');
 const { Op } = require('sequelize');
 
 // Configurar multer para capturar imágenes
@@ -22,12 +22,17 @@ function ensureVendorOrAdmin(req, res, next) {
 
 router.get('/', async (req, res) => {
   try {
-    const { q, minPrice, maxPrice, available, sort } = req.query;
+    const { q, minPrice, maxPrice, available, sort, categoryId } = req.query;
     const where = {};
 
     if (q) {
       const like = { [Op.like]: `%${q}%` };
       where[Op.or] = [{ title: like }, { description: like }];
+    }
+
+    // Filtrar por categoría
+    if (categoryId) {
+      where.categoryId = categoryId;
     }
 
     // Interpret minPrice/maxPrice inputs as COP (pesos colombianos)
@@ -61,20 +66,22 @@ router.get('/', async (req, res) => {
     else if (sort === 'oldest') order.push(['id', 'ASC']);
     else order.push(['id', 'DESC']);
 
-    const products = await Product.findAll({ where, order });
-    res.render('products', { products, query: req.query });
+    const products = await Product.findAll({ where, order, include: [{ model: Category }] });
+    const categories = await Category.findAll();
+    res.render('products', { products, categories, query: req.query });
   } catch (err) {
     req.flash('error', 'Error buscando productos: ' + err.message);
-    const fallbackWhere = { active: true };
-    const products = await Product.findAll({ where: fallbackWhere });
-    res.render('products', { products, query: {} });
+router.get('/new', ensureVendorOrAdmin, async (req, res) => {
+  const categories = await Category.findAll();
+  res.render('product_form', { product: {}, categories });
+});
+    const products = await Product.findAll({ where: fallbackWhere, include: [{ model: Category }] });
+    const categories = await Category.findAll();
+    res.render('products', { products, categories, query: {} });
   }
 });
-
-router.get('/new', ensureVendorOrAdmin, (req, res) => res.render('product_form', { product: {} }));
-
 router.post('/', ensureVendorOrAdmin, upload.single('image'), async (req, res) => {
-  const { title, description, price, quantity } = req.body;
+  const { title, description, price, quantity, categoryId } = req.body;
   try {
     let imageBase64 = null;
     let imageMimeType = 'image/jpeg';
@@ -89,7 +96,8 @@ router.post('/', ensureVendorOrAdmin, upload.single('image'), async (req, res) =
       quantity: parseInt(quantity || 0), 
       userId: req.session.user.id,
       image: imageBase64,
-      imageMimeType
+      imageMimeType,
+      categoryId: categoryId ? parseInt(categoryId) : null
     });
     req.flash('success', 'Producto creado');
     res.redirect('/products');
@@ -121,10 +129,10 @@ router.get('/:id', async (req, res) => {
     res.status(500).send('Error al cargar el producto');
   }
 });
-
 router.get('/:id/edit', ensureVendorOrAdmin, async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id);
+    const categories = await Category.findAll();
     if (!product) {
       req.flash('error', 'Producto no encontrado');
       return res.redirect('/products');
@@ -136,13 +144,12 @@ router.get('/:id/edit', ensureVendorOrAdmin, async (req, res) => {
       return res.redirect('/products');
     }
     
-    res.render('product_form', { product });
+    res.render('product_form', { product, categories });
   } catch (err) {
     req.flash('error', 'Error al cargar el producto: ' + err.message);
     res.redirect('/products');
   }
 });
-
 router.post('/:id/update', ensureVendorOrAdmin, upload.single('image'), async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id);
@@ -157,7 +164,7 @@ router.post('/:id/update', ensureVendorOrAdmin, upload.single('image'), async (r
       return res.redirect('/products');
     }
     
-    const { title, description, price, quantity } = req.body;
+    const { title, description, price, quantity, categoryId } = req.body;
     let imageBase64 = product.image;
     let imageMimeType = product.imageMimeType || 'image/jpeg';
     if (req.file) {
@@ -170,7 +177,8 @@ router.post('/:id/update', ensureVendorOrAdmin, upload.single('image'), async (r
       price: parseFloat(price || 0), 
       quantity: parseInt(quantity || 0),
       image: imageBase64,
-      imageMimeType
+      imageMimeType,
+      categoryId: categoryId ? parseInt(categoryId) : null
     });
     req.flash('success', 'Producto actualizado');
     res.redirect('/products');
@@ -194,7 +202,7 @@ router.put('/:id', ensureVendorOrAdmin, upload.single('image'), async (req, res)
       return res.redirect('/products');
     }
     
-    const { title, description, price, quantity } = req.body;
+    const { title, description, price, quantity, categoryId } = req.body;
     let imageBase64 = product.image;
     let imageMimeType = product.imageMimeType || 'image/jpeg';
     if (req.file) {
@@ -207,7 +215,8 @@ router.put('/:id', ensureVendorOrAdmin, upload.single('image'), async (req, res)
       price: parseFloat(price || 0), 
       quantity: parseInt(quantity || 0),
       image: imageBase64,
-      imageMimeType
+      imageMimeType,
+      categoryId: categoryId ? parseInt(categoryId) : null
     });
     req.flash('success', 'Producto actualizado');
     res.redirect('/products');

@@ -6,9 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     price: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 0 },
     quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     image: { type: DataTypes.TEXT('long') },
-    imageMimeType: { type: DataTypes.STRING, defaultValue: 'image/jpeg' }
-    ,
+    imageMimeType: { type: DataTypes.STRING, defaultValue: 'image/jpeg' },
     // Estado del producto: activo (visible en tienda) o inactivo
-    active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }
+    active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+    // Relación con categoría
+    categoryId: { type: DataTypes.INTEGER, allowNull: true }
   });
 };

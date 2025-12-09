@@ -12,7 +12,10 @@ block content
     input(type='text' name='q' placeholder='Buscar título o descripción' value=(query && query.q) || '')
     input(type='number' step='1' name='minPrice' placeholder='Precio min (COP)' value=(query && query.minPrice) || '')
     input(type='number' step='1' name='maxPrice' placeholder='Precio max (COP)' value=(query && query.maxPrice) || '')
-    label
+    select(name='categoryId')
+      option(value='') Todas las categorías
+      each cat in categories
+        option(value=cat.id selected=(query && query.categoryId == cat.id))= cat.name
     select(name='sort')
       option(value='') Orden por
       option(value='price_asc' selected=(query && query.sort==='price_asc')) Precio ↑
@@ -29,6 +32,8 @@ block content
           if p.image
             img(src=`data:${p.imageMimeType || 'image/jpeg'};base64,${p.image}` alt=p.title class='product-image')
           .product-info
+            if p.Category
+              .product-category= p.Category.name
             h3.product-title= p.title
             p.product-price #{formatCOP(p.price)}
             p.product-stock 

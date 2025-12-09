@@ -15,12 +15,16 @@ const sequelize = new Sequelize(dbName, dbUser, dbPass, {
 });
 
 const User = require('./user')(sequelize, DataTypes);
+const Category = require('./category')(sequelize, DataTypes);
 const Product = require('./product')(sequelize, DataTypes);
 const Order = require('./order')(sequelize, DataTypes);
 const OrderItem = require('./orderItem')(sequelize, DataTypes);
 
 User.hasMany(Product, { foreignKey: 'userId' });
 Product.belongsTo(User, { foreignKey: 'userId' });
+
+Category.hasMany(Product, { foreignKey: 'categoryId' });
+Product.belongsTo(Category, { foreignKey: 'categoryId' });
 
 User.hasMany(Order, { foreignKey: 'userId' });
 Order.belongsTo(User, { foreignKey: 'userId' });
@@ -34,4 +38,4 @@ OrderItem.belongsTo(Product, { foreignKey: 'productId' });
 Order.hasMany(OrderItem, { foreignKey: 'orderId' });
 Product.hasMany(OrderItem, { foreignKey: 'productId' });
 
-module.exports = { sequelize, Sequelize, User, Product, Order, OrderItem };
+module.exports = { sequelize, Sequelize, User, Category, Product, Order, OrderItem };
