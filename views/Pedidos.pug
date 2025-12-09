@@ -1,0 +1,13 @@
+﻿extends layout
+
+block styles
+  link(rel="stylesheet" href="/admin.css")
+
+block content
+  h1 Panel de administración
+
+  // ===== Pedidos =====
+  h2 Pedidos
+  ul
+    each o in orders
+      li Pedido #{o.id} - Total: $$#{o.total} - Estado: #{o.status}

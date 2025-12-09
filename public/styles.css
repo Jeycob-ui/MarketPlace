@@ -25,9 +25,8 @@ header{
 header nav{
 	display:flex;
 	align-items:center;
-	gap:14px;
-	max-width:1100px;
-	margin:0 auto;
+	/* max-width:1100px;
+	margin:0 auto; */
 }
 
 header nav img {

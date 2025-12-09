@@ -22,9 +22,11 @@ html
           a(href='/cart') Carrito
           if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
             a(href='/notifications') Notificaciones
-          a(href='/logout') Salir
           if currentUser.role === 'admin'
-            a(href='/admin') Admin
+            a(href='/admin') Usuarios
+            a(href='/admin/products') Productos
+            a(href='/admin/orders') Pedidos
+          a(href='/logout') Salir
     main
       if messages.error
         .flash.error

@@ -1,0 +1,28 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/admin.css")
+
+block content
+  h1 Panel de administración
+
+  // ===== Productos =====
+  h2 Productos
+  ul
+    each p in products
+      li.admin-product
+        .product-info
+          span.prod-id #[strong #{p.id}]
+          span.prod-title #{p.title}
+          span.prod-qty Stock: #{p.quantity}
+          if p.active
+            span.status-badge.active Activo
+          else
+            span.status-badge.inactive Inactivo
+        .product-actions
+          form(action=`/admin/products/${p.id}/activate` method='post')
+            if !p.active
+              button.btn.btn-activate(type='submit') Activar
+          form(action=`/admin/products/${p.id}/deactivate` method='post')
+            if p.active
+              button.btn.btn-deactivate(type='submit') Desactivar

@@ -31,8 +31,8 @@ block content
               button.btn-remove(type='submit') Eliminar
     .cart-summary
       .total-section
-        h2 Total a pagar: #{formatCOP(entries.reduce((sum, e) => sum + (e.product.price * e.quantity), 0))}
+        h2 Total a pagar de la reserva: #{formatCOP(entries.reduce((sum, e) => sum + (e.product.price * e.quantity), 0))}
     .checkout-section
       form(action='/cart/checkout' method='post')
-        button.btn-checkout(type='submit') Pagar
+        button.btn-checkout(type='submit') Reservar
       a.btn-continue(href='/products') Seguir comprando
