@@ -6,7 +6,7 @@ const methodOverride = require('method-override');
 require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
-const { sequelize, User, Product, Order, OrderItem } = require('./models');
+const { sequelize, User, Category, Product, Order, OrderItem } = require('./models');
 const { Op } = require('sequelize');
 
 const authRoutes = require('./routes/auth');
@@ -80,11 +80,13 @@ app.get('/', async (req, res) => {
     where.active = true;
     // Mostrar un máximo de 4 productos en la pantalla principal
     const products = await Product.findAll({ where, order, limit: 4 });
-    res.render('index', { products, query: req.query });
+    const categories = await Category.findAll();
+    res.render('index', { products, categories, query: req.query });
   } catch (err) {
     console.error('Error loading index products', err);
     const products = await Product.findAll({ limit: 4 });
-    res.render('index', { products, query: {} });
+    const categories = await Category.findAll();
+    res.render('index', { products, categories, query: {} });
   }
 });
 

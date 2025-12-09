@@ -9,12 +9,10 @@ block content
     input(type='number' step='1' name='minPrice' placeholder='Precio min (COP)' value=(query && query.minPrice) || '')
     input(type='number' step='1' name='maxPrice' placeholder='Precio max (COP)' value=(query && query.maxPrice) || '')
     label
-    select(name='sort')
-      option(value='') Orden por
-      option(value='price_asc' selected=(query && query.sort==='price_asc')) Precio ↑
-      option(value='price_desc' selected=(query && query.sort==='price_desc')) Precio ↓
-      option(value='newest' selected=(query && query.sort==='newest')) Más recientes
-      option(value='oldest' selected=(query && query.sort==='oldest')) Más antiguos
+    select(name='categoryId')
+      option(value='') Todas las categorías
+      each cat in categories
+        option(value=cat.id selected=(query && query.categoryId == cat.id))= cat.name
     button(type='submit') Buscar 
   h1 Productos recientes
   if products.length === 0

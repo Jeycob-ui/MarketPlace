@@ -71,14 +71,17 @@ router.get('/', async (req, res) => {
     res.render('products', { products, categories, query: req.query });
   } catch (err) {
     req.flash('error', 'Error buscando productos: ' + err.message);
-router.get('/new', ensureVendorOrAdmin, async (req, res) => {
-  const categories = await Category.findAll();
-  res.render('product_form', { product: {}, categories });
-});
+    const fallbackWhere = { active: true };
     const products = await Product.findAll({ where: fallbackWhere, include: [{ model: Category }] });
     const categories = await Category.findAll();
     res.render('products', { products, categories, query: {} });
   }
+});
+
+// Formulario para crear producto (debe estar antes de las rutas con :id)
+router.get('/new', ensureVendorOrAdmin, async (req, res) => {
+  const categories = await Category.findAll();
+  res.render('product_form', { product: {}, categories });
 });
 router.post('/', ensureVendorOrAdmin, upload.single('image'), async (req, res) => {
   const { title, description, price, quantity, categoryId } = req.body;
