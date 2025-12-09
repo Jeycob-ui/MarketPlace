@@ -10,7 +10,7 @@ block content
   //-Buscar y filtrar productos
   form(action='/products' method='get' class='product-search')
     input(type='text' name='q' placeholder='Buscar título o descripción' value=(query && query.q) || '')
-    select(name='categoryId')
+    select(name='categoryId' class="category")
       option(value='') Todas las categorías
       each cat in categories
         option(value=cat.id selected=(query && query.categoryId == cat.id))= cat.name

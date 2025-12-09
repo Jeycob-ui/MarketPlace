@@ -115,6 +115,29 @@ textarea {
   transition: 0.2s ease;
 }
 
+/* Estilos para el select de categoría en el formulario */
+select[name="categoryId"] {
+  padding: 12px 14px;
+  border: 1px solid #dce1e6;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 0.95rem;
+  color: #222;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'><path fill='%23777' d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+select[name="categoryId"]:focus {
+  border-color: #3498db;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
+  outline: none;
+}
+
 textarea {
   resize: vertical;
   min-height: 120px;
@@ -152,9 +175,9 @@ button[type="submit"]:hover {
   background: #217dbb;
 }
 
-/* BOTÓN CANCELAR */
-a[href="/products"] {
-  background: red;
+/* BOTÓN CANCELAR (solo en formulario) */
+a.btn-cancel {
+  background: #e74c3c;
   border: none;
   padding: 12px;
   border-radius: 10px;
@@ -166,9 +189,10 @@ a[href="/products"] {
   font-weight: 600;
   text-align: center;
   text-decoration: none;
+  display: inline-block;
 }
 
-a[href="/products"]:hover {
+a.btn-cancel:hover {
   text-decoration: none;
-  background: rgb(198, 1, 1);
+  background: #c0392b;
 }

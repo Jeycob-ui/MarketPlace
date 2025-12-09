@@ -82,6 +82,38 @@ h1 {
   box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
 }
 
+/* ======== SELECT ESPECIAL: Categoría ======== */
+.product-search select[name="categoryId"],
+select[name="categoryId"] {
+  padding: 10px 14px;
+  padding-right: 40px; /* espacio para la flecha */
+  border-radius: 10px;
+  border: 1px solid #e6ecf8;
+  background: linear-gradient(180deg,#ffffff,#fbfdff);
+  min-width: 200px;
+  color: #222;
+  font-weight: 500;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'><path fill='%23777' d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: 0.18s ease;
+}
+
+.product-search select[name="categoryId"]:hover,
+select[name="categoryId"]:hover {
+  border-color: #cfe3ff;
+}
+
+.product-search select[name="categoryId"]:focus,
+select[name="categoryId"]:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 0 4px rgba(30,144,255,0.08);
+  outline: none;
+}
+
 .product-search label {
   display: flex;
   align-items: center;
