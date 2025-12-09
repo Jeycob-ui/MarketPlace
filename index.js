@@ -79,11 +79,12 @@ app.get('/', async (req, res) => {
 
     // Mostrar solo productos activos en la tienda pública
     where.active = true;
-    const products = await Product.findAll({ where, order, limit: 12 });
+    // Mostrar un máximo de 4 productos en la pantalla principal
+    const products = await Product.findAll({ where, order, limit: 4 });
     res.render('index', { products, query: req.query });
   } catch (err) {
     console.error('Error loading index products', err);
-    const products = await Product.findAll({ limit: 12 });
+    const products = await Product.findAll({ limit: 4 });
     res.render('index', { products, query: {} });
   }
 });
