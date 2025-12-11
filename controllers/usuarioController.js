@@ -104,6 +104,16 @@ const registrar = async (req, res) => {
     return res.redirect('/register');
   }
 
+  // Validación: permitir solo dominios @gmail.com y @hotmail.com
+  const allowed = ['@gmail.com', '@hotmail.com'];
+  const emailLower = (email || '').toLowerCase();
+  const hasAllowedDomain = allowed.some(d => emailLower.endsWith(d));
+  if (!hasAllowedDomain) {
+    req.session.formData = { name: name || '', email: email || '', role: role || 'comprador' };
+    req.flash('error', 'Solo se permiten emails como @gmail.com o @hotmail.com');
+    return res.redirect('/register');
+  }
+
   try {
     const exists = await User.findOne({ where: { email } });
     if (exists) {
