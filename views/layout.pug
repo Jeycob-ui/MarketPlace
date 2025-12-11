@@ -9,24 +9,41 @@ html
   body
     header
       nav
+        button.hamburger#hamburger(type='button' aria-label='Abrir menú' aria-expanded='false' aria-controls='main-menu')
+          span
+          span
+          span
         a.logo(href='/') 
           img(src="/img/MarketPlace.jpeg", alt="MarketPlace Logo")
-        a(href='/') Inicio
-        a(href='/products') Productos
-        if !currentUser
-          a(href='/register') Registrar
-          a(href='/login') Login
-        else
-          span Hola #{currentUser.name} (#{currentUser.role})
-          a(href='/profile') Mi Perfil
-          a(href='/cart') Carrito
-          if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
-            a(href='/notifications') Notificaciones
-          if currentUser.role === 'admin'
-            a(href='/admin') Usuarios
-            a(href='/admin/products') Productos
-            a(href='/admin/orders') Pedidos
-          a(href='/logout') Salir
+        ul.menu#main-menu
+          li
+            a(href='/') Inicio
+          li
+            a(href='/products') Productos
+          if !currentUser
+            li
+              a(href='/register') Registrar
+            li
+              a(href='/login') Login
+          else
+            li
+              span Hola #{currentUser.name} (#{currentUser.role})
+            li
+              a(href='/profile') Mi Perfil
+            li
+              a(href='/cart') Carrito
+            if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
+              li
+                a(href='/notifications') Notificaciones
+            if currentUser.role === 'admin'
+              li
+                a(href='/admin') Usuarios
+              li
+                a(href='/admin/products') Productos
+              li
+                a(href='/admin/orders') Pedidos
+            li
+              a(href='/logout') Salir
     main
       if messages.error
         .flash.error
@@ -40,6 +57,17 @@ html
     // Handler for unauthenticated add-to-cart buttons: set flash and redirect back
     script.
       document.addEventListener('DOMContentLoaded', function () {
+        var hamburger = document.getElementById('hamburger');
+        var menu = document.getElementById('main-menu');
+        if (hamburger && menu) {
+          hamburger.addEventListener('click', function () {
+            var isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+            hamburger.setAttribute('aria-expanded', String(!isOpen));
+            hamburger.classList.toggle('is-open');
+            menu.classList.toggle('is-open');
+          });
+        }
+
         document.querySelectorAll('.btn-need-login').forEach(function (btn) {
           btn.addEventListener('click', function (e) {
             e.preventDefault();

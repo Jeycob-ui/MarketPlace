@@ -9,7 +9,6 @@ html, body {
 
 body {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #ece9ff, #d8eaff);
   display: flex;
   flex-direction: column;
 }

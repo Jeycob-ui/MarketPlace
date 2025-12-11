@@ -14,6 +14,19 @@ body{
 	color: #222;
 	display: flex;
 	flex-direction: column;
+	transition: transform .3s ease;
+}
+
+/* ==== EMPUJAR CONTENIDO CUANDO EL MENÚ SE ABRE ==== */
+body.push-content header,
+body.push-content main,
+body.push-content footer {
+	transform: translateX(280px); /* mismo ancho del menú */
+	transition: transform .3s ease;
+}
+
+header, main, footer {
+	transition: transform .3s ease;
 }
 
 /* Header */
@@ -23,14 +36,42 @@ header{
 	padding:10px 16px;
 	flex-shrink: 0;
 	box-shadow:0 2px 6px rgba(0,0,0,0.08);
+	position: relative;
+	z-index: 1000;
 }
 
 header nav{
 	display:flex;
 	align-items:center;
-	/* max-width:1100px;
-	margin:0 auto; */
+	flex-wrap:wrap;
 }
+
+/* Hamburger button */
+.hamburger{
+	display:flex;
+	flex-direction:column;
+	gap:4px;
+	padding:10px;
+	margin-right:12px;
+	background:transparent;
+	border:1px solid rgba(255,255,255,0.4);
+	border-radius:8px;
+	cursor:pointer;
+	z-index:1100;
+}
+
+.hamburger span{
+	display:block;
+	width:22px;
+	height:2px;
+	background:#fff;
+	border-radius:2px;
+	transition:transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger.is-open span:nth-child(1){transform: translateY(6px) rotate(45deg);}
+.hamburger.is-open span:nth-child(2){opacity:0;}
+.hamburger.is-open span:nth-child(3){transform: translateY(-6px) rotate(-45deg);}
 
 header nav img {
 	height: 60px;
@@ -82,6 +123,45 @@ header nav span{
 	font-weight:600;
 }
 
+/* --- SIDEBAR LATERAL --- */
+ul.menu{
+	list-style:none;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 280px;
+
+	background:#1C7FFF;
+	padding:20px;
+	padding-top:70px;
+
+	display: flex;
+	flex-direction:column;
+	gap:10px;
+
+	box-shadow:4px 0 12px rgba(0,0,0,0.2);
+
+	transform: translateX(-100%);
+	transition: transform .3s ease;
+
+	z-index: 999;
+}
+
+ul.menu.is-open{
+	transform: translateX(0);
+}
+
+ul.menu li{margin:0;}
+ul.menu a{
+	width:100%;
+	color:#fff;
+	font-weight:600;
+	text-decoration:none;
+	padding:8px;
+}
+
 /* Main content */
 main{
 	flex: 1;
@@ -100,7 +180,6 @@ main{
 .flash.error{background:#fdf2f2;border:1px solid #f8c8c8;padding:8px;color:#6a1b1b}
 .flash.success{background:#eef7ee;border:1px solid #bfe6bf;padding:8px;color:#175317}
 
-
 /* Footer */
 footer{
 	background: #1C7FFF;
@@ -113,7 +192,6 @@ footer{
 	align-items: center;
 }
 
-/* Ensure footer paragraph is centered on all pages */
 footer p{
     max-width:1100px;
     width:100%;
