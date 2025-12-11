@@ -4,67 +4,93 @@ html
     meta(name='viewport' content='width=device-width,initial-scale=1')
     title MarketPlace
     link(rel='stylesheet' href='/styles.css')
-    link(rel='stylesheet' href='/profile.css')
     block styles
   body
-    header
-      nav
-        button.hamburger#hamburger(type='button' aria-label='Abrir menú' aria-expanded='false' aria-controls='main-menu')
-          span
-          span
-          span
-        a.logo(href='/') 
-          img(src="/img/MarketPlace.jpeg", alt="MarketPlace Logo")
-        ul.menu#main-menu
-          li
-            a(href='/') Inicio
-          li
-            a(href='/products') Productos
-          if !currentUser
+    .site-wrapper
+      header
+        nav
+          button.hamburger#hamburger(type='button' aria-label='Abrir menú' aria-expanded='false' aria-controls='main-menu')
+            span
+            span
+            span
+          a.logo(href='/') 
+            img(src="/img/MarketPlace.jpeg", alt="MarketPlace Logo")
+          ul.menu#main-menu
             li
-              a(href='/register') Registrar
+              a(href='/') Inicio
             li
-              a(href='/login') Login
-          else
-            li
-              span Hola #{currentUser.name} (#{currentUser.role})
-            li
-              a(href='/profile') Mi Perfil
-            li
-              a(href='/cart') Carrito
-            if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
+              a(href='/products') Productos
+            if !currentUser
               li
-                a(href='/notifications') Notificaciones
-            if currentUser.role === 'admin'
+                a(href='/register') Registrar
               li
-                a(href='/admin') Usuarios
+                a(href='/login') Login
+            else
               li
-                a(href='/admin/products') Productos
+                span Hola #{currentUser.name} (#{currentUser.role})
               li
-                a(href='/admin/orders') Pedidos
-            li
-              a(href='/logout') Salir
-    main
-      if messages.error
-        .flash.error
-          each m in messages.error
-            div= m
-      if messages.success
-        .flash.success
-          each m in messages.success
-            div= m
-      block content
+                a(href='/profile') Mi Perfil
+              li
+                a(href='/cart') Carrito
+              if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
+                li
+                  a(href='/notifications') Notificaciones
+              if currentUser.role === 'admin'
+                li
+                  a(href='/admin') Usuarios
+                li
+                  a(href='/admin/products') Productos
+                li
+                  a(href='/admin/orders') Pedidos
+              li
+                a(href='/logout') Salir
+      main
+        if messages.error
+          .flash.error
+            each m in messages.error
+              div= m
+        if messages.success
+          .flash.success
+            each m in messages.success
+              div= m
+        block content
+      footer
+        p © 2025 MarketPlace. Todos los derechos reservados.
+
     // Handler for unauthenticated add-to-cart buttons: set flash and redirect back
     script.
       document.addEventListener('DOMContentLoaded', function () {
         var hamburger = document.getElementById('hamburger');
         var menu = document.getElementById('main-menu');
         if (hamburger && menu) {
-          hamburger.addEventListener('click', function () {
+          function closeMenu() {
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.classList.remove('is-open');
+            menu.classList.remove('is-open');
+            document.body.classList.remove('push-content');
+          }
+
+          hamburger.addEventListener('click', function (evt) {
+            evt.stopPropagation();
             var isOpen = hamburger.getAttribute('aria-expanded') === 'true';
             hamburger.setAttribute('aria-expanded', String(!isOpen));
             hamburger.classList.toggle('is-open');
             menu.classList.toggle('is-open');
+            document.body.classList.toggle('push-content');
+          });
+
+          // Cerrar al hacer click fuera del menú
+          document.addEventListener('click', function (e) {
+            if (!menu.contains(e.target) && !hamburger.contains(e.target) && menu.classList.contains('is-open')) {
+              closeMenu();
+            }
+          });
+
+          // Cerrar con ESC
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+              closeMenu();
+            }
           });
         }
 
@@ -76,5 +102,3 @@ html
           });
         });
       });
-    footer
-      p © 2025 MarketPlace. Todos los derechos reservados.
