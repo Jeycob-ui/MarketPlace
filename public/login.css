@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+/* 
 header {
   flex-shrink: 0;
   padding: 15px 0;
@@ -39,7 +39,7 @@ header nav a {
 
 header nav a:hover {
   color: #a0c0ff;
-}
+} */
 
 main {
   flex: 1;

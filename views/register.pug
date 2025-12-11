@@ -7,12 +7,13 @@ block content
   h1 Registrate
   .register-container
     form.register-form(action='/register' method='post')
+      - var f = typeof form !== 'undefined' ? form : {}
       .form-row
         label(for='name') Nombre
-        input#name(type='text' name='name' required)
+        input#name(type='text' name='name' required value=(f.name || ''))
       .form-row
         label(for='email') Email
-        input#email(type='email' name='email' required)
+        input#email(type='email' name='email' required value=(f.email || ''))
       .form-row
         label(for='password') Contraseña
         input#password(type='password' name='password' required)
@@ -21,8 +22,9 @@ block content
         input#confirm_password(type='password' name='confirm_password' required)
       .form-row
         label(for='role') Rol
+        - var sel = f.role || 'comprador'
         select#role(name='role')
-          option(value='comprador') Comprador
-          option(value='vendedor') Vendedor
+          option(value='comprador' selected=(sel === 'comprador')) Comprador
+          option(value='vendedor' selected=(sel === 'vendedor')) Vendedor
       .form-actions
         button.btn(type='submit') Registrarse

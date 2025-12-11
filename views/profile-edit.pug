@@ -7,13 +7,14 @@ block content
     
     .profile-edit-card
       form.profile-edit-form(action="/profile?_method=PUT" method="POST")
+        - var f = typeof form !== 'undefined' ? form : {}
         .form-group
           label(for="name") Nombre
           input.form-control(
             type="text"
             id="name"
             name="name"
-            value=usuario.name
+            value=(f.name || usuario.name)
             required
           )
         
@@ -23,7 +24,7 @@ block content
             type="email"
             id="email"
             name="email"
-            value=usuario.email
+            value=(f.email || usuario.email)
             required
           )
         

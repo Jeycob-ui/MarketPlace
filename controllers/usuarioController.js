@@ -1,5 +1,8 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+// ^
+// |
+// es un módulo integrado que ofrece funcionalidades criptográficas para proteger datos
 const { User } = require('../models');
 const { sendMail } = require('../helpers/mailer');
 
@@ -13,7 +16,7 @@ const formularioOlvide = (req, res) => {
   res.render('forgot');
 };
 
-// Procesar solicitud de reseteo: generar token, guardar y enviar email
+// Procesar solicitud de reset: generar token, guardar y enviar email
 const enviarOlvide = async (req, res) => {
   const { email } = req.body || {};
   if (!email) {
@@ -24,7 +27,7 @@ const enviarOlvide = async (req, res) => {
   try {
     const usuario = await User.findOne({ where: { email } });
     if (!usuario) {
-      // No revelar si existe o no; mostrar mensaje genérico
+      // No revelar si existe o no. mostrar mensaje genérico
       req.flash('success', 'Si existe ese email, recibirás instrucciones para resetear tu contraseña');
       return res.redirect('/login');
     }
@@ -80,19 +83,31 @@ const autenticar = async (req, res) => {
 };
 
 const formularioRegistro = (req, res) => {
-  res.render('register');
+  const form = req.session.formData || {};
+  req.session.formData = null;
+  res.render('register', { form });
 };
 
 const registrar = async (req, res) => {
   const { name, email, password, role } = req.body;
   if (!name || !email || !password) {
+    // preserve inputs except password
+    req.session.formData = { name: name || '', email: email || '', role: role || 'comprador' };
     req.flash('error', 'Nombre, email y contraseña son obligatorios');
+    return res.redirect('/register');
+  }
+  
+  // Validación: contraseña mínima 6 caracteres
+  if (password && password.length < 6) {
+    req.session.formData = { name: name || '', email: email || '', role: role || 'comprador' };
+    req.flash('error', 'La contraseña debe tener al menos 6 caracteres');
     return res.redirect('/register');
   }
 
   try {
     const exists = await User.findOne({ where: { email } });
     if (exists) {
+      req.session.formData = { name: name || '', email: email || '', role: role || 'comprador' };
       req.flash('error', 'El usuario ya existe');
       return res.redirect('/register');
     }
@@ -100,6 +115,8 @@ const registrar = async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, passwordHash: hash, role: role || 'comprador' });
 
+    // clear any preserved form data on success
+    req.session.formData = null;
     req.session.user = { id: user.id, name: user.name, role: user.role };
     req.flash('success', 'Registrado correctamente');
     return res.redirect('/');
@@ -143,6 +160,12 @@ const resetPassword = async (req, res) => {
   }
   if (password !== confirm) {
     req.flash('error', 'Las contraseñas no coinciden');
+    return res.redirect(`/reset/${token}`);
+  }
+
+  // Validación: contraseña mínima 6 caracteres
+  if (password && password.length < 6) {
+    req.flash('error', 'La contraseña debe tener al menos 6 caracteres');
     return res.redirect(`/reset/${token}`);
   }
 
@@ -200,7 +223,10 @@ const formularioEditarPerfil = async (req, res) => {
       return res.redirect('/');
     }
 
-    res.render('profile-edit', { usuario });
+    // if there are preserved form values from a failed submit, use them
+    const form = req.session.formData || {};
+    req.session.formData = null;
+    res.render('profile-edit', { usuario, form });
   } catch (err) {
     req.flash('error', 'Error al cargar el formulario: ' + (err.message || err));
     res.redirect('/profile');
@@ -235,8 +261,14 @@ const actualizarPerfil = async (req, res) => {
     if (name) usuario.name = name;
     if (email) usuario.email = email;
 
-    // Si proporciona contraseña nueva, actualizarla
+    // Si proporciona contraseña nueva, validar y actualizarla
     if (password) {
+      if (password.length < 6) {
+        // preserve other inputs
+        req.session.formData = { name: name || '', email: email || '' };
+        req.flash('error', 'La contraseña debe tener al menos 6 caracteres');
+        return res.redirect('/profile/edit');
+      }
       const hash = await bcrypt.hash(password, 10);
       usuario.passwordHash = hash;
     }
@@ -245,7 +277,8 @@ const actualizarPerfil = async (req, res) => {
 
     // Actualizar sesión con el nuevo nombre
     req.session.user.name = usuario.name;
-
+    // clear any preserved form data on success
+    req.session.formData = null;
     req.flash('success', 'Perfil actualizado correctamente');
     res.redirect('/profile');
   } catch (err) {
@@ -268,10 +301,11 @@ const eliminarCuenta = async (req, res) => {
     }
 
     await usuario.destroy();
-    req.session.destroy(() => {
-      req.flash('success', 'Cuenta eliminada correctamente');
-      res.redirect('/');
-    });
+    // Clear the logged user but keep the session so flash messages persist
+    // (destroying the session removes flash messages stored there).
+    req.session.user = null;
+    req.flash('success', 'Cuenta eliminada correctamente');
+    return res.redirect('/');
   } catch (err) {
     req.flash('error', 'Error al eliminar la cuenta: ' + (err.message || err));
     res.redirect('/profile');

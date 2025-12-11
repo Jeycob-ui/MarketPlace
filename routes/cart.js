@@ -86,7 +86,7 @@ router.post('/checkout', ensureAuth, async (req, res) => {
     await it.product.decrement('quantity', { by: it.qty });
   }
   req.session.cart = {};
-  req.flash('success', 'Compra confirmada');
+  req.flash('success', 'Reserva confirmada');
   res.redirect('/');
 });
 
