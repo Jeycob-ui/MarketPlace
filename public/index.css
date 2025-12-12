@@ -183,6 +183,10 @@ p {
     max-width: 100%;
   }
 
+  .card{
+    margin-left: 110px;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;

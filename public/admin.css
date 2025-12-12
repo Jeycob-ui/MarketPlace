@@ -356,9 +356,6 @@ ul li:hover {
 }
 
 @media (max-width: 900px) {
-  .admin-section {
-    padding: 18px;
-  }
 
   h1 {
     font-size: 1.7rem;
@@ -384,8 +381,7 @@ ul li:hover {
     margin-top: 20px;
   }
 
-  .admin-section {
-    padding: 15px;
+  .admin-section {  
     margin-bottom: 15px;
   }
 
