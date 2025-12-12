@@ -11,6 +11,18 @@ block content
     ul
       each it in items
         li
+          // Estado del pedido
+          if it.Order && it.Order.status
+            - const st = it.Order.status
+            span.status-badge(class=`status-${st}`)
+              if st === 'pending'
+                | Pendiente
+              else if st === 'paid'
+                | Pagado
+              else if st === 'shipped'
+                | Enviado
+              else if st === 'cancelled'
+                | Cancelado
           b Producto: 
           | #{it.Product ? it.Product.title : 'N/D'}
           |  — Cantidad: #{it.quantity} — Precio: $#{it.price}

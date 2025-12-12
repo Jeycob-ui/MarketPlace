@@ -30,7 +30,7 @@ h1 {
 .actions a {
   display: inline-block;
   padding: 12px 24px;
-  background: #1e90ff;
+  background: #00a59b;
   color: #fff !important;
   border-radius: 8px;
   text-decoration: none;
@@ -40,9 +40,9 @@ h1 {
 }
 
 .actions a:hover {
-  background: #1873cc;
+  background: #008c84;
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(30, 144, 255, 0.3);
+  box-shadow: 0 5px 12px rgba(0, 165, 155, 0.3);
 }
 
 /* ======== BUSCADOR DE PRODUCTOS ======== */
@@ -81,8 +81,8 @@ h1 {
 .product-search input[type="text"]:focus,
 .product-search input[type="number"]:focus,
 .product-search select:focus {
-  border-color: #1e90ff;
-  box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+  border-color: #00a59b;
+  box-shadow: 0 0 0 3px rgba(0, 165, 155, 0.1);
 }
 
 /* ======== SELECT ESPECIAL: Categoría ======== */
@@ -112,7 +112,7 @@ select[name="categoryId"]:hover {
 
 .product-search select[name="categoryId"]:focus,
 select[name="categoryId"]:focus {
-  border-color: #1e90ff;
+  border-color: #00a59b;
   box-shadow: 0 0 0 4px rgba(30,144,255,0.08);
   outline: none;
 }
@@ -128,7 +128,7 @@ select[name="categoryId"]:focus {
 
 .product-search button[type="submit"] {
   padding: 10px 20px;
-  background: #1e90ff;
+  background: #00a59b;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -139,7 +139,7 @@ select[name="categoryId"]:focus {
 }
 
 .product-search button[type="submit"]:hover {
-  background: #1873cc;
+  background: #008c84;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(30, 144, 255, 0.3);
 }
@@ -154,20 +154,21 @@ select[name="categoryId"]:focus {
   padding: 0 15px;
 }
 
-/* ======== TARJETA DE PRODUCTO ======== */
+/* ======== TARJETA DE PRODUCTO estilo Miravia ======== */
 .product-card {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: 0.3s ease;
   display: flex;
   flex-direction: column;
+  border: 1px solid #e8e8e8;
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
 .product-image {
@@ -175,6 +176,7 @@ select[name="categoryId"]:focus {
   height: 200px;
   object-fit: cover;
   background: #f0f0f0;
+  border-radius: 8px 8px 0 0;
 }
 
 .product-info {
@@ -196,7 +198,7 @@ select[name="categoryId"]:focus {
 .product-price {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1e90ff;
+  color: #e74c3c;
   margin: 8px 0;
 }
 
@@ -253,14 +255,14 @@ select[name="categoryId"]:focus {
 }
 
 .btn-info {
-  background: #1e90ff;
+  background: #00a59b;
   color: white;
 }
 
 .btn-info:hover {
-  background: #1873cc;
+  background: #008c84;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(30, 144, 255, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 165, 155, 0.3);
 }
 
 .btn-success {
@@ -279,7 +281,7 @@ select[name="categoryId"]:focus {
   
   display: inline-block;
   padding: 12px 24px;
-  background: #1e90ff;
+  background: #00a59b;
   color: #fff !important;
   border-radius: 8px;
   text-decoration: none;

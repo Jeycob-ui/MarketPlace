@@ -35,7 +35,7 @@ table {
 }
 
 th {
-  background: #1e90ff;
+  background: #00a59b;
   color: white;
   padding: 15px;
   font-size: 1rem;
@@ -67,8 +67,8 @@ tr:hover td {
 }
 
 .total-section {
-  background: #f0f6ff;
-  border-left: 4px solid #1e90ff;
+  background: #f0fffe;
+  border-left: 4px solid #00a59b;
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
@@ -76,7 +76,7 @@ tr:hover td {
 }
 
 .total-section h2 {
-  color: #1e90ff;
+  color: #00a59b;
 }
 
 /* ======== SECCIÓN CHECKOUT ======== */
@@ -116,7 +116,7 @@ tr:hover td {
 
 .btn-continue {
   padding: 12px 40px;
-  background: #1e90ff;
+  background: #00a59b;
   color: white;
   text-decoration: none;
   border: none;
@@ -131,9 +131,9 @@ tr:hover td {
 }
 
 .btn-continue:hover {
-  background: #1974cf;
+  background: #008c84;
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(108, 117, 125, 0.3);
+  box-shadow: 0 5px 12px rgba(0, 165, 155, 0.3);
 }
 
 .btn-remove {
@@ -172,7 +172,7 @@ tr:hover td {
 
 .btn-qty {
   padding: 6px 12px;
-  background: #2776F5;
+  background: #00a59b;
   color: white;
   border: none;
   border-radius: 6px;
@@ -180,7 +180,7 @@ tr:hover td {
   font-size: 1rem;
   font-weight: 700;
   transition: 0.15s ease;
-  box-shadow: 0 2px 6px rgba(39, 118, 245, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 165, 155, 0.2);
   min-width: 32px;
   height: 32px;
   display: flex;
@@ -189,7 +189,7 @@ tr:hover td {
 }
 
 .btn-qty:hover {
-  background: #1e5fcf;
+  background: #008c84;
   transform: scale(1.05);
 }
 
@@ -217,7 +217,7 @@ p + a {
   margin: 20px;
   margin-left: 40px;
   padding: 12px 40px;
-  background: #1e90ff;
+  background: #00a59b;
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -229,7 +229,7 @@ p + a {
 }
 
 p + a:hover {
-  background: #1873cc;
+  background: #008c84;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(30, 144, 255, 0.3);
 }

@@ -48,11 +48,42 @@ li::before {
   content: "";
   width: 6px;
   height: 100%;
-  background: linear-gradient(180deg, #4facfe, #00f2fe);
+  background: linear-gradient(180deg, #00a59b, #008c84);
   position: absolute;
   left: 0;
   top: 0;
   border-radius: 14px 0 0 14px;
+}
+
+/* Estado del pedido */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.status-pending {
+  background: #fff7e6;
+  color: #b36b00;
+  border: 1px solid #ffd591;
+}
+.status-paid {
+  background: #e6fffb;
+  color: #006d75;
+  border: 1px solid #87e8de;
+}
+.status-shipped {
+  background: #f0f5ff;
+  color: #2f54eb;
+  border: 1px solid #adc6ff;
+}
+.status-cancelled {
+  background: #fff1f0;
+  color: #a8071a;
+  border: 1px solid #ffa39e;
 }
 
 .LETRAS {

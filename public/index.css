@@ -6,15 +6,16 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background: #fff;
 }
 
 /* TÍTULO */
 h1 {
-  font-size: 2.2rem;
-  font-weight: bold;
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: left;
+  color: #333;
+  margin-bottom: 24px;
 }
 
 /* GRID DE PRODUCTOS */
@@ -24,46 +25,57 @@ h1 {
   gap: 16px;
 }
 
-/* CARD */
+/* CARD estilo Miravia */
 .card {
   background: #ffffff;
-  border-radius: 14px;
-  padding: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-  transition: 0.25s ease;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   display: flex;
   flex-direction: column;
-  border: 1px solid #eef2f5;
+  border: 1px solid #e8e8e8;
+  position: relative;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* TÍTULO DEL PRODUCTO */
 .card h3 {
-  font-size: 0.95rem;
-  color: #222;
-  margin-bottom: 6px;
-  margin-top: 0;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  font-weight: 500;
+  line-height: 1.3;
+  min-height: 2.6em;
 }
 
 /* TEXTO */
 .card p {
-  margin: 3px 0;
+  margin: 4px 0;
   font-size: 0.85rem;
-  color: #555;
+  color: #666;
 }
 
-/* BOTÓN "VER" */
+.card p strong {
+  color: #ff6b35;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* BOTÓN "VER" estilo Miravia */
 .card a {
   margin-top: 8px;
-  padding: 6px 10px;
-  background: #3498db;
-  color: white;
+  padding: 8px 16px;
+  background: #00a59b,;
+  color: #00a59b;
+  border: 2px solid #00a59b;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 6px;
   text-decoration: none;
   transition: 0.25s ease;
   font-weight: 600;
@@ -71,10 +83,14 @@ h1 {
 }
 
 img{
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 .card a:hover {
-  background: #217dbb;
+  background: #00a59b;
+  color: white;
 }
 
 /* FORMULARIO DEL BOTÓN "AÑADIR AL CARRITO" */
@@ -82,23 +98,32 @@ img{
   margin-top: 10px;
 }
 
-/* BOTÓN CARRITO */
+/* BOTÓN CARRITO estilo Miravia */
 .card button {
   width: 100%;
-  padding: 6px 10px;
-  background: #2ecc71;
+  padding: 10px 16px;
+  background:#28a745;
   color: white;
   font-size: 0.85rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: background 0.2s ease;
   font-weight: 600;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .card button:hover {
-  background: #25b863;
+  background: #008c84;
+}
+
+.card .btn-disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.card .btn-disabled:hover {
+  background: #ccc;
 }
 
 /* CUANDO NO HAY PRODUCTOS */
@@ -112,23 +137,26 @@ p {
 .product-search {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
-	background: linear-gradient(135deg, #ece9ff, #d8eaff);
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 16px;
+	background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e8e8e8;
 }
 .product-search input[type="text"],
 .product-search input[type="number"],
 .product-search select {
-  padding: 10px 12px;
-  border: 1px solid #e6e9ef;
-  border-radius: 8px;
-  background: #fff;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
   min-width: 160px;
   outline: none;
-  transition: box-shadow .15s, border-color .15s;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
 }
 .product-search input[type="text"] {
   flex: 1 1 220px;
@@ -136,20 +164,78 @@ p {
 .product-search input[type="text"]:focus,
 .product-search input[type="number"]:focus,
 .product-search select:focus {
-  box-shadow: 0 6px 18px rgba(13,110,253,0.08);
-  border-color: #bfd7ff;
+  border-color: #00a59b;
+  background: #fff;
 }
-.product-search label { display:flex; align-items:center; gap:6px; color:#444; font-size:0.95rem; }
+.product-search label { display:flex; align-items:center; gap:6px; color:#333; font-size:0.9rem; font-weight: 500; }
 .product-search button[type="submit"] {
-  padding: 10px 16px;
-  background: linear-gradient(180deg,#1e90ff,#0d6efd);
+  padding: 10px 20px;
+  background: #00a59b;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(13,110,253,0.12);
+  font-weight: 600;
+  transition: background 0.2s ease;
 }
-.product-search button[type="submit"]:hover { filter: brightness(.95); }
+
+.product-search button[type="submit"]:hover { 
+  background: #008c84;
+}
+
+/* Badges y etiquetas */
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #e74c3c;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.badge.descuento {
+  background: #e74c3c;
+}
+
+.badge.nuevo {
+  background: #00a59b;
+}
+
+/* Stock indicator */
+.stock-indicator {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.stock-indicator.in-stock {
+  background: #d4edda;
+  color: #155724;
+}
+
+.stock-indicator.out-stock {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Precio destacado */
+.price-section {
+  margin: 12px 0;
+}
+
+.price-section strong {
+  display: block;
+  font-size: 1.3rem;
+  color: #e74c3c;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
 /* ======== RESPONSIVE ======== */
 @media (max-width: 1200px) {

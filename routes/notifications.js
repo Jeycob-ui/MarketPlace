@@ -34,11 +34,11 @@ router.get('/', ensureAuth, async (req, res) => {
         limit: 50
       });
 
-      // Compras propias del vendedor (pagadas)
+      // Compras propias del vendedor (todos los estados)
       const comprasPropias = await OrderItem.findAll({
         include: [
           { model: Product, include: [User] },
-          { model: Order, where: { userId: u.id, status: 'paid' }, include: [User] }
+          { model: Order, where: { userId: u.id }, include: [User] }
         ],
         order: [['createdAt', 'DESC']],
         limit: 50
@@ -49,11 +49,11 @@ router.get('/', ensureAuth, async (req, res) => {
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 50);
     } else if (u.role === 'comprador') {
-      // Mostrar compras pagadas realizadas por el comprador actual
+      // Mostrar compras realizadas por el comprador actual (todos los estados)
       items = await OrderItem.findAll({
         include: [
           { model: Product, include: [User] },
-          { model: Order, where: { userId: u.id, status: 'paid' }, include: [User] }
+          { model: Order, where: { userId: u.id }, include: [User] }
         ],
         order: [['createdAt', 'DESC']],
         limit: 50

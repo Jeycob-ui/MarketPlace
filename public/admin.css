@@ -10,13 +10,13 @@ body {
 
 h1 {
   margin-bottom: 10px;
-  color: #0d6efd;
+  color: #00a59b;
 }
 
 h2 {
   margin-top: 30px;
   color: #333;
-  border-left: 4px solid #0d6efd;
+  border-left: 4px solid #00a59b;
   padding-left: 8px;
 }
 
@@ -194,12 +194,12 @@ ul li:hover {
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #0d6efd;
+  border-color: #00a59b;
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
 }
 
 .btn-primary {
-  background: #0d6efd;
+  background: #00a59b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -211,9 +211,9 @@ ul li:hover {
 }
 
 .btn-primary:hover {
-  background: #0b5ed7;
+  background: #008c84;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 165, 155, 0.3);
 }
 
 /* ===== Lista de categorías ===== */
@@ -234,7 +234,7 @@ ul li:hover {
 }
 
 .admin-table thead {
-  background: #0d6efd;
+  background: #00a59b;
   color: #fff;
 }
 
@@ -272,7 +272,7 @@ ul li:hover {
 .btn-edit {
   display: inline-block;
   padding: 6px 12px;
-  background: #0066cc;
+  background: #00a59b;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -284,7 +284,7 @@ ul li:hover {
 }
 
 .btn-edit:hover {
-  background: #0052a3;
+  background: #008c84;
   transform: translateY(-1px);
 }
 
@@ -334,8 +334,8 @@ ul li:hover {
 .category-edit-form input:focus,
 .category-edit-form textarea:focus {
   outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 2px rgba(0,102,204,0.1);
+  border-color: #00a59b;
+  box-shadow: 0 0 0 2px rgba(0, 165, 155, 0.1);
 }
 
 .form-buttons {
@@ -537,7 +537,7 @@ ul li:hover {
   .admin-table td::before {
     content: attr(data-label);
     font-weight: 600;
-    color: #0d6efd;
+    color: #00a59b;
     margin-right: 10px;
     display: block;
     min-width: 100px;
