@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, Product, Order, OrderItem } = require('../models');
+const { User, Product, Order, OrderItem, Category } = require('../models');
 
 function ensureAdmin(req, res, next) {
   const u = req.session.user;
@@ -13,7 +13,8 @@ function ensureAdmin(req, res, next) {
 
 router.get('/', ensureAdmin, async (req, res) => {
   const users = await User.findAll();
-  res.render('admin', { users });
+  const categories = await Category.findAll();
+  res.render('admin', { users, categories });
 });
 
 router.get('/products', ensureAdmin, async (req, res) => {
@@ -61,6 +62,45 @@ router.post('/products/:id/deactivate', ensureAdmin, async (req, res) => {
   } catch (err) {
     req.flash('error', 'Error al desactivar producto: ' + (err.message || err));
     res.redirect('/admin/products');
+  }
+});
+
+// Crear categoría
+router.post('/categories', ensureAdmin, async (req, res) => {
+  const { name, description } = req.body;
+  try {
+    if (!name || name.trim() === '') {
+      req.flash('error', 'El nombre de la categoría es obligatorio');
+      return res.redirect('/admin');
+    }
+    await Category.create({ name: name.trim(), description: description || '' });
+    req.flash('success', 'Categoría creada exitosamente');
+    res.redirect('/admin');
+  } catch (err) {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      req.flash('error', 'Ya existe una categoría con ese nombre');
+    } else {
+      req.flash('error', 'Error al crear categoría: ' + (err.message || err));
+    }
+    res.redirect('/admin');
+  }
+});
+
+// Eliminar categoría
+router.post('/categories/:id/delete', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const category = await Category.findByPk(id);
+    if (!category) {
+      req.flash('error', 'Categoría no encontrada');
+      return res.redirect('/admin');
+    }
+    await category.destroy();
+    req.flash('success', 'Categoría eliminada');
+    res.redirect('/admin');
+  } catch (err) {
+    req.flash('error', 'Error al eliminar categoría: ' + (err.message || err));
+    res.redirect('/admin');
   }
 });
 

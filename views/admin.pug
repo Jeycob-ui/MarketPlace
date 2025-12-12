@@ -6,8 +6,48 @@ block styles
 block content
   h1 Panel de administración
 
+  // ===== Categorías =====
+  section.admin-section
+    h2 Gestión de Categorías
+    
+    .category-form
+      h3 Crear nueva categoría
+      form(action="/admin/categories" method="POST")
+        .form-group
+          label(for="name") Nombre:
+          input#name(type="text" name="name" required placeholder="Ej: Electrónica")
+        
+        .form-group
+          label(for="description") Descripción:
+          textarea#description(name="description" rows="3" placeholder="Descripción de la categoría (opcional)")
+        
+        button.btn-primary(type="submit") Crear Categoría
+    
+    .categories-list
+      h3 Categorías existentes
+      if categories && categories.length > 0
+        table.admin-table
+          thead
+            tr
+              th ID
+              th Nombre
+              th Descripción
+              th Acciones
+          tbody
+            each cat in categories
+              tr
+                td #{cat.id}
+                td #{cat.name}
+                td #{cat.description || 'Sin descripción'}
+                td
+                  form(action=`/admin/categories/${cat.id}/delete` method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')")
+                    button.btn-danger(type="submit") Eliminar
+      else
+        p No hay categorías creadas todavía.
+
   // ===== Usuarios =====
-  h2 Usuarios
-  ul
-    each u in users
-      li #{u.id} - #{u.name} (#{u.email}) - #{u.role}
+  section.admin-section
+    h2 Usuarios
+    ul
+      each u in users
+        li #{u.id} - #{u.name} (#{u.email}) - #{u.role}
