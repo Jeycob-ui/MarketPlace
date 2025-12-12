@@ -3,7 +3,7 @@
 
 /* ======== CONTENEDOR GENERAL ======== */
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #f4f5f7;
   margin: 0;
   padding: 0;
@@ -232,6 +232,40 @@ h2 {
 }
 
 /* ======== RESPONSIVE ======== */
+@media (max-width: 1200px) {
+  .container {
+    width: 95%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .profile-card,
+  .profile-edit-card {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 900px) {
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .profile-card,
+  .profile-edit-card {
+    padding: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 1.5rem;
@@ -242,9 +276,18 @@ h2 {
     font-size: 1.2rem;
   }
 
+  .container {
+    width: 95%;
+    max-width: 100%;
+  }
+
   .profile-card,
   .profile-edit-card {
     padding: 20px;
+  }
+
+  .info-section {
+    padding: 12px 15px;
   }
 
   .info-section p {
@@ -265,10 +308,12 @@ h2 {
   .profile-actions,
   .form-actions {
     flex-direction: column;
+    gap: 8px;
   }
 
   .btn {
     width: 100%;
+    padding: 10px 20px;
   }
 
   .delete-form {
@@ -278,24 +323,107 @@ h2 {
   .delete-form .btn {
     width: 100%;
   }
-}
 
-@media (max-width: 480px) {
-  .container {
-    width: 95%;
+  .form-control {
+    padding: 10px;
+    font-size: 0.95rem;
   }
 
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-row.two-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
   h1 {
     font-size: 1.3rem;
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .profile-header {
+    padding: 15px 0;
+    margin-bottom: 20px;
   }
 
   .profile-card,
   .profile-edit-card {
     padding: 15px;
+    border-radius: 10px;
   }
 
-  .btn {
-    padding: 10px 20px;
+  .info-section {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+  }
+
+  .info-section p {
     font-size: 0.9rem;
+  }
+
+  .info-section strong {
+    font-size: 0.9rem;
+  }
+
+  .info-section span {
+    font-size: 0.85rem;
+  }
+
+  .profile-info h2 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+
+  .profile-actions,
+  .form-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn,
+  .btn-success {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .delete-form button {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .form-control {
+    padding: 8px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .form-text {
+    font-size: 0.8rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-row.two-cols {
+    display: flex;
+    flex-direction: column;
   }
 }

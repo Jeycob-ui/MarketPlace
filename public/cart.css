@@ -3,7 +3,7 @@
 
 /* ======== CONTENEDOR GENERAL ======== */
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #f4f5f7;
   margin: 0;
   padding: 0;
@@ -235,10 +235,44 @@ p + a:hover {
 }
 
 /* ======== RESPONSIVE ======== */
+@media (max-width: 1200px) {
+  table {
+    width: 95%;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 12px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  table {
+    width: 96%;
+    font-size: 0.88rem;
+  }
+
+  th, td {
+    padding: 11px;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 1.5rem;
     margin: 15px 0;
+  }
+
+  h2 {
+    font-size: 1.1rem;
   }
 
   table,
@@ -248,19 +282,21 @@ p + a:hover {
   }
 
   th, td {
-    padding: 12px;
+    padding: 10px;
     font-size: 0.85rem;
   }
 
   .btn-checkout,
   .btn-continue,
+  .btn-remove,
   p + a {
-    padding: 10px 24px;
+    padding: 10px 20px;
     font-size: 0.9rem;
   }
 
   .checkout-section {
     flex-direction: column;
+    width: 95%;
   }
 
   .checkout-section form,
@@ -271,5 +307,93 @@ p + a:hover {
   .btn-checkout,
   .btn-continue {
     width: 100%;
+  }
+
+  .quantity-control {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .btn-qty {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    min-width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  table,
+  .cart-summary,
+  .checkout-section {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  table {
+    margin: 15px auto;
+  }
+
+  th {
+    font-size: 0.75rem;
+    padding: 8px 5px;
+  }
+
+  td {
+    padding: 8px 5px;
+    font-size: 0.8rem;
+  }
+
+  .btn-checkout,
+  .btn-continue,
+  .btn-remove,
+  p + a {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .total-section {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .total-section h2 {
+    font-size: 1rem;
+  }
+
+  .checkout-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .quantity-control {
+    gap: 4px;
+  }
+
+  .btn-qty {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    min-width: 24px;
+    height: 24px;
+  }
+
+  .qty-value {
+    font-size: 0.8rem;
+  }
+
+  p + a {
+    display: block;
+    margin: 15px auto;
+    width: calc(100% - 20px);
   }
 }

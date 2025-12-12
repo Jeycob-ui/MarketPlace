@@ -86,6 +86,57 @@ router.post('/categories', ensureAdmin, async (req, res) => {
   }
 });
 
+// Editar categoría (formulario)
+router.get('/categories/:id/edit', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const category = await Category.findByPk(id);
+    if (!category) {
+      req.flash('error', 'Categoría no encontrada');
+      return res.redirect('/admin');
+    }
+    const users = await User.findAll();
+    const categories = await Category.findAll();
+    res.render('admin', { users, categories, editingCategory: category });
+  } catch (err) {
+    req.flash('error', 'Error al cargar categoría: ' + (err.message || err));
+    res.redirect('/admin');
+  }
+});
+
+// Actualizar categoría
+router.post('/categories/:id/update', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  const { name, description } = req.body;
+  
+  try {
+    if (!name || name.trim() === '') {
+      req.flash('error', 'El nombre de la categoría es obligatorio');
+      return res.redirect(`/admin/categories/${id}/edit`);
+    }
+
+    const category = await Category.findByPk(id);
+    if (!category) {
+      req.flash('error', 'Categoría no encontrada');
+      return res.redirect('/admin');
+    }
+
+    category.name = name.trim();
+    category.description = description || '';
+    await category.save();
+
+    req.flash('success', 'Categoría actualizada exitosamente');
+    res.redirect('/admin');
+  } catch (err) {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      req.flash('error', 'Ya existe una categoría con ese nombre');
+    } else {
+      req.flash('error', 'Error al actualizar categoría: ' + (err.message || err));
+    }
+    res.redirect(`/admin/categories/${id}/edit`);
+  }
+});
+
 // Eliminar categoría
 router.post('/categories/:id/delete', ensureAdmin, async (req, res) => {
   const id = req.params.id;
@@ -100,6 +151,88 @@ router.post('/categories/:id/delete', ensureAdmin, async (req, res) => {
     res.redirect('/admin');
   } catch (err) {
     req.flash('error', 'Error al eliminar categoría: ' + (err.message || err));
+    res.redirect('/admin');
+  }
+});
+
+// Editar usuario (formulario)
+router.get('/users/:id/edit', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      req.flash('error', 'Usuario no encontrado');
+      return res.redirect('/admin');
+    }
+    const users = await User.findAll();
+    const categories = await Category.findAll();
+    res.render('admin', { users, categories, editingUser: user });
+  } catch (err) {
+    req.flash('error', 'Error al cargar usuario: ' + (err.message || err));
+    res.redirect('/admin');
+  }
+});
+
+// Actualizar usuario
+router.post('/users/:id/update', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  const { name, email, role } = req.body;
+  
+  try {
+    if (!name || !email || !role) {
+      req.flash('error', 'Nombre, email y rol son obligatorios');
+      return res.redirect(`/admin/users/${id}/edit`);
+    }
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      req.flash('error', 'Usuario no encontrado');
+      return res.redirect('/admin');
+    }
+
+    // Verificar si el email ya existe en otro usuario
+    const existingUser = await User.findOne({ where: { email, id: { [require('sequelize').Op.ne]: id } } });
+    if (existingUser) {
+      req.flash('error', 'El email ya está en uso por otro usuario');
+      return res.redirect(`/admin/users/${id}/edit`);
+    }
+
+    user.name = name.trim();
+    user.email = email.trim();
+    user.role = role;
+    await user.save();
+
+    req.flash('success', 'Usuario actualizado exitosamente');
+    res.redirect('/admin');
+  } catch (err) {
+    req.flash('error', 'Error al actualizar usuario: ' + (err.message || err));
+    res.redirect(`/admin/users/${id}/edit`);
+  }
+});
+
+// Eliminar usuario
+router.post('/users/:id/delete', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  const currentUserId = req.session.user.id;
+
+  try {
+    // Prevent admin from deleting themselves
+    if (parseInt(id) === currentUserId) {
+      req.flash('error', 'No puedes eliminar tu propia cuenta');
+      return res.redirect('/admin');
+    }
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      req.flash('error', 'Usuario no encontrado');
+      return res.redirect('/admin');
+    }
+
+    await user.destroy();
+    req.flash('success', 'Usuario eliminado exitosamente');
+    res.redirect('/admin');
+  } catch (err) {
+    req.flash('error', 'Error al eliminar usuario: ' + (err.message || err));
     res.redirect('/admin');
   }
 });

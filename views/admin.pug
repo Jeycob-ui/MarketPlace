@@ -10,6 +10,22 @@ block content
   section.admin-section
     h2 Gestión de Categorías
     
+    if editingCategory
+      .category-edit-form
+        h3 Editar categoría
+        form(action=`/admin/categories/${editingCategory.id}/update` method="POST")
+          .form-group
+            label(for="name") Nombre:
+            input#name(type="text" name="name" value=editingCategory.name required)
+          
+          .form-group
+            label(for="description") Descripción:
+            textarea#description(name="description" rows="3")= editingCategory.description || ''
+          
+          .form-buttons
+            button.btn-primary(type="submit") Guardar cambios
+            a.btn-secondary(href="/admin") Cancelar
+    
     .category-form
       h3 Crear nueva categoría
       form(action="/admin/categories" method="POST")
@@ -36,10 +52,11 @@ block content
           tbody
             each cat in categories
               tr
-                td #{cat.id}
-                td #{cat.name}
-                td #{cat.description || 'Sin descripción'}
-                td
+                td(data-label="ID") #{cat.id}
+                td(data-label="Nombre") #{cat.name}
+                td(data-label="Descripción") #{cat.description || 'Sin descripción'}
+                td(data-label="Acciones")
+                  a.btn-edit(href=`/admin/categories/${cat.id}/edit`) Editar
                   form(action=`/admin/categories/${cat.id}/delete` method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')")
                     button.btn-danger(type="submit") Eliminar
       else
@@ -47,7 +64,52 @@ block content
 
   // ===== Usuarios =====
   section.admin-section
-    h2 Usuarios
-    ul
-      each u in users
-        li #{u.id} - #{u.name} (#{u.email}) - #{u.role}
+    h2 Gestión de Usuarios
+    
+    if editingUser
+      .user-edit-form
+        h3 Editar usuario
+        form(action=`/admin/users/${editingUser.id}/update` method="POST")
+          .form-group
+            label(for="name") Nombre:
+            input#name(type="text" name="name" value=editingUser.name required)
+          
+          .form-group
+            label(for="email") Email:
+            input#email(type="email" name="email" value=editingUser.email required)
+          
+          .form-group
+            label(for="role") Rol:
+            select#role(name="role" required)
+              option(value="comprador" selected=(editingUser.role === 'comprador')) Comprador
+              option(value="vendedor" selected=(editingUser.role === 'vendedor')) Vendedor
+              option(value="admin" selected=(editingUser.role === 'admin')) Administrador
+          
+          .form-buttons
+            button.btn-primary(type="submit") Guardar cambios
+            a.btn-secondary(href="/admin") Cancelar
+
+    .users-list
+      h3 Lista de usuarios
+      if users && users.length > 0
+        table.admin-table
+          thead
+            tr
+              th ID
+              th Nombre
+              th Email
+              th Rol
+              th Acciones
+          tbody
+            each u in users
+              tr
+                td(data-label="ID") #{u.id}
+                td(data-label="Nombre") #{u.name}
+                td(data-label="Email") #{u.email}
+                td(data-label="Rol") #{u.role}
+                td(data-label="Acciones")
+                  a.btn-edit(href=`/admin/users/${u.id}/edit`) Editar
+                  form(action=`/admin/users/${u.id}/delete` method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?')")
+                    button.btn-danger(type="submit") Eliminar
+      else
+        p No hay usuarios registrados.
