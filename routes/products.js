@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const { Product, Category } = require('../models');
+const fs = require('fs');
+const path = require('path');
 const { Op } = require('sequelize');
 
 // Configurar multer para capturar imágenes
@@ -88,9 +90,18 @@ router.post('/', ensureVendorOrAdmin, upload.single('image'), async (req, res) =
   try {
     let imageBase64 = null;
     let imageMimeType = 'image/jpeg';
+    let imagePath = null;
     if (req.file) {
       imageBase64 = req.file.buffer.toString('base64');
       imageMimeType = req.file.mimetype || 'image/jpeg';
+      // Save to uploads folder as well
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+      const ext = (req.file.originalname && path.extname(req.file.originalname)) || '.jpg';
+      const filename = `prod_${Date.now()}_${Math.random().toString(36).slice(2)}${ext}`;
+      const fullPath = path.join(uploadsDir, filename);
+      fs.writeFileSync(fullPath, req.file.buffer);
+      imagePath = `/uploads/${filename}`;
     }
     await Product.create({ 
       title, 
@@ -100,6 +111,7 @@ router.post('/', ensureVendorOrAdmin, upload.single('image'), async (req, res) =
       userId: req.session.user.id,
       image: imageBase64,
       imageMimeType,
+      imagePath,
       categoryId: categoryId ? parseInt(categoryId) : null
     });
     req.flash('success', 'Producto creado');
@@ -170,9 +182,18 @@ router.post('/:id/update', ensureVendorOrAdmin, upload.single('image'), async (r
     const { title, description, price, quantity, categoryId } = req.body;
     let imageBase64 = product.image;
     let imageMimeType = product.imageMimeType || 'image/jpeg';
+    let imagePath = product.imagePath;
     if (req.file) {
       imageBase64 = req.file.buffer.toString('base64');
       imageMimeType = req.file.mimetype || 'image/jpeg';
+      // Save to uploads folder as well
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+      const ext = (req.file.originalname && path.extname(req.file.originalname)) || '.jpg';
+      const filename = `prod_${Date.now()}_${Math.random().toString(36).slice(2)}${ext}`;
+      const fullPath = path.join(uploadsDir, filename);
+      fs.writeFileSync(fullPath, req.file.buffer);
+      imagePath = `/uploads/${filename}`;
     }
     await product.update({ 
       title, 
@@ -181,6 +202,7 @@ router.post('/:id/update', ensureVendorOrAdmin, upload.single('image'), async (r
       quantity: parseInt(quantity || 0),
       image: imageBase64,
       imageMimeType,
+      imagePath,
       categoryId: categoryId ? parseInt(categoryId) : null
     });
     req.flash('success', 'Producto actualizado');

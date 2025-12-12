@@ -21,7 +21,15 @@ const PORT = process.env.PORT || 3000;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Static assets
 app.use(express.static(path.join(__dirname, 'public')));
+// Ensure uploads directory exists and serve it statically
+const fs = require('fs');
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsDir));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
