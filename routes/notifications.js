@@ -24,10 +24,36 @@ router.get('/', ensureAuth, async (req, res) => {
         limit: 50
       });
     } else if (u.role === 'vendedor') {
-      items = await OrderItem.findAll({
+      // Ventas del vendedor
+      const ventas = await OrderItem.findAll({
         include: [
           { model: Product, where: { userId: u.id }, include: [User] },
           { model: Order, include: [User] }
+        ],
+        order: [['createdAt', 'DESC']],
+        limit: 50
+      });
+
+      // Compras propias del vendedor (pagadas)
+      const comprasPropias = await OrderItem.findAll({
+        include: [
+          { model: Product, include: [User] },
+          { model: Order, where: { userId: u.id, status: 'paid' }, include: [User] }
+        ],
+        order: [['createdAt', 'DESC']],
+        limit: 50
+      });
+
+      // Merge y ordenar por fecha
+      items = [...ventas, ...comprasPropias]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 50);
+    } else if (u.role === 'comprador') {
+      // Mostrar compras pagadas realizadas por el comprador actual
+      items = await OrderItem.findAll({
+        include: [
+          { model: Product, include: [User] },
+          { model: Order, where: { userId: u.id, status: 'paid' }, include: [User] }
         ],
         order: [['createdAt', 'DESC']],
         limit: 50

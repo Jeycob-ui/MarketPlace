@@ -23,8 +23,95 @@ router.get('/products', ensureAdmin, async (req, res) => {
 });
 
 router.get('/orders', ensureAdmin, async (req, res) => {
-  const orders = await Order.findAll();
+  const orders = await Order.findAll({ include: [User] });
   res.render('Pedidos', { orders });
+});
+
+// Actualizar estado de pedido
+router.post('/orders/:id/update-status', ensureAdmin, async (req, res) => {
+  const id = req.params.id;
+  const { status } = req.body;
+  
+  try {
+    const order = await Order.findByPk(id);
+    if (!order) {
+      req.flash('error', 'Pedido no encontrado');
+      return res.redirect('/admin/orders');
+    }
+
+    const validStatuses = ['pending', 'paid', 'shipped', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      req.flash('error', 'Estado inválido');
+      return res.redirect('/admin/orders');
+    }
+
+    const previousStatus = order.status;
+    
+    // Si se cancela el pedido y antes no estaba cancelado, devolver stock
+    if (status === 'cancelled' && previousStatus !== 'cancelled') {
+      const orderItems = await OrderItem.findAll({
+        where: { orderId: id },
+        include: [Product]
+      });
+
+      for (const item of orderItems) {
+        if (item.Product) {
+          item.Product.quantity += item.quantity;
+          await item.Product.save();
+        }
+      }
+      
+      req.flash('success', `Pedido cancelado y stock devuelto`);
+    } else {
+      req.flash('success', `Estado del pedido actualizado a: ${status}`);
+    }
+
+    order.status = status;
+    await order.save();
+    res.redirect('/admin/orders');
+  } catch (err) {
+    req.flash('error', 'Error al actualizar pedido: ' + (err.message || err));
+    res.redirect('/admin/orders');
+  }
+});
+
+// Reportes básicos
+router.get('/reports', ensureAdmin, async (req, res) => {
+  try {
+    // Items de órdenes pagadas
+    const items = await OrderItem.findAll({
+      include: [
+        { model: Order, where: { status: 'paid' } },
+        { model: Product }
+      ]
+    });
+
+    // Ventas totales
+    const totalSales = items.reduce((acc, it) => acc + (it.price * it.quantity), 0);
+
+    // Número de pedidos pagados
+    const ordersCount = await Order.count({ where: { status: 'paid' } });
+
+    // Productos más vendidos (por cantidad) y sus ingresos
+    const productStats = new Map();
+    for (const it of items) {
+      if (!it.Product) continue;
+      const pid = it.Product.id;
+      const curr = productStats.get(pid) || { id: pid, title: it.Product.title, quantity: 0, revenue: 0 };
+      curr.quantity += it.quantity;
+      curr.revenue += it.price * it.quantity;
+      productStats.set(pid, curr);
+    }
+    const topProducts = Array.from(productStats.values())
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 5);
+
+    res.render('reports', { totalSales, ordersCount, topProducts });
+  } catch (err) {
+    console.error('Error al generar reportes:', err);
+    req.flash('error', 'Error al generar reportes');
+    res.redirect('/admin');
+  }
 });
 
 // Activar producto

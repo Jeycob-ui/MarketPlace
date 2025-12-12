@@ -36,7 +36,7 @@ block content
           form(action=`/cart/add/${product.id}` method='post' style='margin-top: 20px;')
             button(type='submit' class='btn btn-success') Añadir al carrito
         else
-          button(type='button' class='btn btn-success btn-need-login' style='margin-top: 20px;') Añadir al carrito
+          button(type='button' class='btn btn-success btn-need-login' style='display: inline-block; padding: 12px 24px; background: #1e90ff; color: #fff !important; border: none; border-radius: 8px; text-decoration: none; transition: 0.25s ease; font-weight: 500;') Añadir al carrito
       else
         button(type='button' disabled class='btn btn-disabled' style='margin-top: 20px;') Agotado
       br

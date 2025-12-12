@@ -27,6 +27,8 @@ html
               a(href='/cart') Carrito
               if currentUser && (currentUser.role === 'admin' || currentUser.role === 'vendedor')
                 a(href='/notifications') Notificaciones
+              if currentUser && currentUser.role === 'comprador'
+                a(href='/notifications') Mis compras
               if currentUser.role === 'admin'
                 a(href='/admin') Usuarios
                 a(href='/admin/products') Productos

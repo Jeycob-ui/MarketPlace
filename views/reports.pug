@@ -1,0 +1,41 @@
+extends layout
+
+block styles
+  //- Reuse admin styles for a simple summary look
+  link(rel="stylesheet" href="/admin.css")
+
+block content
+  h1 Reportes básicos
+
+  .admin-section
+    h2 Resumen
+    ul
+      li
+        b Ventas totales: 
+        - const totalCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(totalSales || 0)
+        | #{totalCOP}
+      li
+        b Pedidos pagados: 
+        | #{ordersCount || 0}
+
+  .admin-section
+    h2 Productos más vendidos
+    if !topProducts || topProducts.length === 0
+      p No hay datos suficientes.
+    else
+      table.admin-table
+        thead
+          tr
+            th Producto
+            th Cantidad vendida
+            th Ingresos
+        tbody
+          each p in topProducts
+            tr
+              td(data-label="Producto") #{p.title}
+              td(data-label="Cantidad vendida") #{p.quantity}
+              - const revCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.revenue || 0)
+              td(data-label="Ingresos") #{revCOP}
+
+  .admin-section
+    a.btn-primary(href='/admin') Volver al panel

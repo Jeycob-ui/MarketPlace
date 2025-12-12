@@ -4,10 +4,40 @@ block styles
   link(rel="stylesheet" href="/admin.css")
 
 block content
-  h1 Panel de administración
+  h1 Gestión de Pedidos
 
-  // ===== Pedidos =====
-  h2 Pedidos
-  ul
-    each o in orders
-      li Pedido #{o.id} - Total: $$#{o.total} - Estado: #{o.status}
+  if !orders || orders.length === 0
+    p No hay pedidos registrados.
+  else
+    table.admin-table
+      thead
+        tr
+          th ID
+          th Cliente
+          th Total
+          th Estado
+          th Cambiar estado
+          th Fecha
+      tbody
+        each o in orders
+          tr
+            td(data-label="ID") #{o.id}
+            td(data-label="Cliente") #{o.User ? o.User.name : 'N/D'}
+            - const totalCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(o.total || 0)
+            td(data-label="Total") #{totalCOP}
+            td(data-label="Estado")
+              - const statusLabels = { pending: 'Pendiente', paid: 'Pagado', shipped: 'Enviado', cancelled: 'Cancelado' }
+              span(class=`status-badge status-${o.status}`)= statusLabels[o.status] || o.status
+            td(data-label="Cambiar estado")
+              form(action=`/admin/orders/${o.id}/update-status` method="POST" style="display: flex; gap: 8px; align-items: center;")
+                select(name="status" required style="padding: 4px 8px;")
+                  option(value="pending" selected=(o.status === 'pending')) Pendiente
+                  option(value="paid" selected=(o.status === 'paid')) Pagado
+                  option(value="shipped" selected=(o.status === 'shipped')) Enviado
+                  option(value="cancelled" selected=(o.status === 'cancelled')) Cancelado
+                button.btn-primary(type="submit" style="padding: 4px 12px; font-size: 0.9em;") Actualizar
+            - const fecha = new Date(o.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })
+            td(data-label="Fecha") #{fecha}
+
+  .admin-section
+    a.btn-primary(href='/admin') Volver al panel
